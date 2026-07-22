@@ -4,7 +4,7 @@
   let
     alacrittyConfig = pkgs.writeText "alacritty.toml" ''
       [window]
-      opacity = 0.85
+      opacity = 0.9
       decorations = "full"
 
       [font]
