@@ -1,98 +1,101 @@
-{ self, inputs, ... }: {
-  flake.nixosModules.laptopConfig = { config, pkgs, ... }:
-
 {
-  imports = [
+  self,
+  inputs,
+  ...
+}: {
+  flake.nixosModules.laptopConfig = {
+    config,
+    pkgs,
+    ...
+  }: {
+    imports = [
       self.nixosModules.laptopHardware
       self.nixosModules.nvim
       self.nixosModules.alacritty
-  ];
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/London";
-
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
-  };
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    
-  };
-
-  services.xserver.libinput.enable = true;
-
-  users.users."grae" = {
-    isNormalUser = true;
-    description = "grae ceney";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-   	vim
-	wget
-	neovim
-	git
-	gh
-	lazygit
-	opencode
+      self.nixosModules.niri
     ];
+
+    nix.settings.experimental-features = ["nix-command" "flakes"];
+
+    # Bootloader.
+    boot.loader.systemd-boot.enable = true;
+    boot.loader.efi.canTouchEfiVariables = true;
+
+    networking.hostName = "nixos"; # Define your hostname.
+    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
+    networking.networkmanager.enable = true;
+
+    time.timeZone = "Europe/London";
+
+    i18n.defaultLocale = "en_GB.UTF-8";
+
+    i18n.extraLocaleSettings = {
+      LC_ADDRESS = "en_GB.UTF-8";
+      LC_IDENTIFICATION = "en_GB.UTF-8";
+      LC_MEASUREMENT = "en_GB.UTF-8";
+      LC_MONETARY = "en_GB.UTF-8";
+      LC_NAME = "en_GB.UTF-8";
+      LC_NUMERIC = "en_GB.UTF-8";
+      LC_PAPER = "en_GB.UTF-8";
+      LC_TELEPHONE = "en_GB.UTF-8";
+      LC_TIME = "en_GB.UTF-8";
+    };
+
+    # Enable the X11 windowing system.
+    services.xserver.enable = true;
+
+    # Enable the GNOME Desktop Environment.
+    services.xserver.displayManager.gdm.enable = true;
+    services.xserver.desktopManager.gnome.enable = true;
+
+    # Configure keymap in X11
+    services.xserver.xkb = {
+      layout = "us";
+      variant = "";
+    };
+
+    # Enable CUPS to print documents.
+    services.printing.enable = true;
+
+    # Enable sound with pipewire.
+    services.pulseaudio.enable = false;
+    security.rtkit.enable = true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+    };
+
+    services.xserver.libinput.enable = true;
+
+    users.users."grae" = {
+      isNormalUser = true;
+      description = "grae ceney";
+      extraGroups = ["networkmanager" "wheel"];
+      packages = with pkgs; [
+        vim
+        wget
+        neovim
+        git
+        gh
+        lazygit
+        opencode
+      ];
+    };
+
+    programs.firefox.enable = true;
+    nixpkgs.config.allowUnfree = true;
+
+    environment.systemPackages = with pkgs; [
+      vim
+      wget
+      neovim
+      git
+      gh
+    ];
+
+    system.stateVersion = "26.05"; # don't change
   };
-
-  programs.firefox.enable = true;
-  nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = with pkgs; [
-    vim    
-    wget
-    neovim
-    git
-    gh
-  ];
-
-  system.stateVersion = "26.05"; # don't change
-
-};
 }
-
-
