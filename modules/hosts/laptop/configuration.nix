@@ -13,6 +13,11 @@
       self.nixosModules.nvim
       self.nixosModules.alacritty
       self.nixosModules.niri
+      self.nixosModules.ly
+      self.nixosModules.fuzzel
+      self.nixosModules.waybar
+      self.nixosModules.mako
+      self.nixosModules.wallpaper
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -42,12 +47,7 @@
       LC_TIME = "en_GB.UTF-8";
     };
 
-    # Enable the X11 windowing system.
     services.xserver.enable = true;
-
-    # Enable the GNOME Desktop Environment.
-    services.xserver.displayManager.gdm.enable = true;
-    services.xserver.desktopManager.gnome.enable = true;
 
     # Configure keymap in X11
     services.xserver.xkb = {
@@ -68,7 +68,11 @@
       pulse.enable = true;
     };
 
-    services.xserver.libinput.enable = true;
+    services.libinput.enable = true;
+
+    fonts.packages = with pkgs; [
+      nerd-fonts.jetbrains-mono
+    ];
 
     users.users."grae" = {
       isNormalUser = true;
@@ -89,11 +93,8 @@
     nixpkgs.config.allowUnfree = true;
 
     environment.systemPackages = with pkgs; [
-      vim
       wget
-      neovim
       git
-      gh
     ];
 
     system.stateVersion = "26.05"; # don't change
