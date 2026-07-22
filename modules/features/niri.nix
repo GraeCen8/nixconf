@@ -72,10 +72,13 @@
           "Mod+Shift+Q".quit = _: {};
           "Mod+V".switch-layout = "next";
 
-          "Mod+F".fullscreen-window = _: {};
+          "Mod+F".maximize-column = _: {};
+          "Mod+Ctrl+F".fullscreen-window = _: {};
+          "Mod+R"."switch-preset-column-width" = _: {};
+          "Mod+C".center-column = _: {};
           "Mod+g".toggle-window-floating = _: {};
 
-          "Mod+c".spawn-sh = "pkill -SIGUSR1 waybar";
+          "Mod+b".spawn-sh = "pkill -SIGUSR1 waybar";
 
           "Mod+h".focus-column-left = _: {};
           "Mod+l".focus-column-right = _: {};
