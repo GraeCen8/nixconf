@@ -43,10 +43,10 @@
         };
 
         layout = {
-          gaps = 5;
+          gaps = 10;
           border = {
-            width = 1;
-            "active-color" = "#81A1C1";
+            width = 0.5;
+            "active-color" = "#AAAAAA";
             "inactive-color" = "#4C566A";
           };
         };
