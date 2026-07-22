@@ -9,16 +9,16 @@
 
       [colors]
       background = 2e3440dd
-      text = d8dee9
-      prompt = 81a1c1
-      input = d8dee9
-      match = 88c0d0
-      selection = 3b4252
-      selection-text = d8dee9
-      border = 81a1c1
+      text = d8dee9ff
+      prompt = 81a1c1ff
+      input = d8dee9ff
+      match = 88c0d0ff
+      selection = 3b4252ff
+      selection-text = d8dee9ff
+      border = 81a1c1ff
     '';
   in {
     environment.systemPackages = with pkgs; [ fuzzel ];
-    environment.etc."fuzzel/fuzzel.ini".source = fuzzelConfig;
+    environment.etc."xdg/fuzzel/fuzzel.ini".source = fuzzelConfig;
   };
 }
