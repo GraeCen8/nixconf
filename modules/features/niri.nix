@@ -31,8 +31,15 @@
     packages.myNiri = inputs.wrapper-modules.wrappers.niri.wrap {
       inherit pkgs;
       settings = {
-        input.keyboard = {
-          xkb.layout = "us,ua";
+        "prefer-no-csd" = true;
+
+        input = {
+          keyboard.xkb.layout = "us,ua";
+          "focus-follows-mouse" = _: { };
+          touchpad = {
+            tap = _: { };
+            dwt = _: { };
+          };
         };
 
         layout = {
@@ -53,12 +60,22 @@
         binds = {
           "Mod+Return".spawn-sh = lib.getExe pkgs.alacritty;
           "Mod+D".spawn-sh = lib.getExe pkgs.fuzzel;
+          "Mod+Tab".spawn-sh = lib.getExe pkgs.librewolf;
+
+          "Mod+n".spawn-sh = "wallpaper-next";
+          "Mod+o".toggle-overview = _: { };
+
+          "Mod+u".focus-workspace-up = _: { };
+          "Mod+i".focus-workspace-down = _: { };
 
           "Mod+W".close-window = _: { };
           "Mod+Shift+Q".quit = _: { };
           "Mod+V".switch-layout = "next";
 
-          "Mod+F".toggle-window-floating = _: { };
+          "Mod+F".fullscreen-window = _: { };
+          "Mod+g".toggle-window-floating = _: { };
+
+          "Mod+c".spawn-sh = "pkill -SIGUSR1 waybar";
 
           "Mod+h".focus-column-left = _: { };
           "Mod+l".focus-column-right = _: { };
@@ -70,11 +87,10 @@
           "Mod+Shift+k".move-window-up = _: { };
           "Mod+Shift+j".move-window-down = _: { };
 
+          "Shift+Tab"."switch-preset-column-width" = _: { };
+
           "Print".spawn-sh = "${lib.getExe pkgs.grim} - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -t image/png";
           "Shift+Print".spawn-sh = "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -t image/png";
-
-          "Mod+Tab".focus-workspace-down = _: { };
-          "Mod+Shift+Tab".focus-workspace-up = _: { };
 
           "Mod+1".focus-workspace = 1;
           "Mod+2".focus-workspace = 2;

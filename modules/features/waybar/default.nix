@@ -11,7 +11,7 @@
         "modules-center": ["clock"],
         "modules-right": ["pulseaudio", "network", "battery", "tray"],
         "niri/workspaces": {
-          "format": "{name}",
+          "format": "{index}",
           "show-icons": false
         },
         "clock": {
@@ -67,6 +67,7 @@
         background: transparent;
         color: #4c566a;
         border-bottom: 2px solid transparent;
+        min-width: 24px;
       }
 
       #workspaces button.active {

@@ -86,6 +86,7 @@
         gh
         lazygit
         opencode
+        librewolf
       ];
     };
 
