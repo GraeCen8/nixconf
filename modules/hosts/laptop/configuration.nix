@@ -18,6 +18,7 @@
       self.nixosModules.waybar
       self.nixosModules.mako
       self.nixosModules.wallpaper
+      self.nixosModules.fish
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
