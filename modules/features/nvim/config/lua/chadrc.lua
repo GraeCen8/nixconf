@@ -6,10 +6,12 @@
 local M = {}
 
 M.base46 = {
-  theme = "chadracula",
+  theme = "nord",
 }
 
 M.ui = {
+  transparency = true,
+
   telescope = {
     style = "bordered",
   },
