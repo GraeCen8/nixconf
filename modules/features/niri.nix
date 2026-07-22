@@ -35,26 +35,26 @@
 
         input = {
           keyboard.xkb.layout = "us,ua";
-          "focus-follows-mouse" = _: { };
+          "focus-follows-mouse" = _: {};
           touchpad = {
-            tap = _: { };
-            dwt = _: { };
+            tap = _: {};
+            dwt = _: {};
           };
         };
 
         layout = {
           gaps = 5;
           border = {
-            width = 2;
+            width = 1;
             "active-color" = "#81A1C1";
             "inactive-color" = "#4C566A";
           };
         };
 
         spawn-at-startup = [
-          [ "${lib.getExe pkgs.swaybg}" "--image" "${self.packages.${pkgs.stdenv.hostPlatform.system}.defaultWallpaper}/wallpaper.png" ]
-          [ "${lib.getExe pkgs.waybar}" ]
-          [ "${lib.getExe pkgs.mako}" ]
+          ["${lib.getExe pkgs.swaybg}" "--image" "${self.packages.${pkgs.stdenv.hostPlatform.system}.defaultWallpaper}/wallpaper.png"]
+          ["${lib.getExe pkgs.waybar}"]
+          ["${lib.getExe pkgs.mako}"]
         ];
 
         binds = {
@@ -63,31 +63,31 @@
           "Mod+Tab".spawn-sh = lib.getExe pkgs.librewolf;
 
           "Mod+n".spawn-sh = "wallpaper-next";
-          "Mod+o".toggle-overview = _: { };
+          "Mod+o".toggle-overview = _: {};
 
-          "Mod+u".focus-workspace-up = _: { };
-          "Mod+i".focus-workspace-down = _: { };
+          "Mod+u".focus-workspace-up = _: {};
+          "Mod+i".focus-workspace-down = _: {};
 
-          "Mod+W".close-window = _: { };
-          "Mod+Shift+Q".quit = _: { };
+          "Mod+W".close-window = _: {};
+          "Mod+Shift+Q".quit = _: {};
           "Mod+V".switch-layout = "next";
 
-          "Mod+F".fullscreen-window = _: { };
-          "Mod+g".toggle-window-floating = _: { };
+          "Mod+F".fullscreen-window = _: {};
+          "Mod+g".toggle-window-floating = _: {};
 
           "Mod+c".spawn-sh = "pkill -SIGUSR1 waybar";
 
-          "Mod+h".focus-column-left = _: { };
-          "Mod+l".focus-column-right = _: { };
-          "Mod+k".focus-window-up = _: { };
-          "Mod+j".focus-window-down = _: { };
+          "Mod+h".focus-column-left = _: {};
+          "Mod+l".focus-column-right = _: {};
+          "Mod+k".focus-window-up = _: {};
+          "Mod+j".focus-window-down = _: {};
 
-          "Mod+Shift+h".move-column-left = _: { };
-          "Mod+Shift+l".move-column-right = _: { };
-          "Mod+Shift+k".move-window-up = _: { };
-          "Mod+Shift+j".move-window-down = _: { };
+          "Mod+Shift+h".move-column-left = _: {};
+          "Mod+Shift+l".move-column-right = _: {};
+          "Mod+Shift+k".move-window-up = _: {};
+          "Mod+Shift+j".move-window-down = _: {};
 
-          "Shift+Tab"."switch-preset-column-width" = _: { };
+          "Shift+Tab"."switch-preset-column-width" = _: {};
 
           "Print".spawn-sh = "${lib.getExe pkgs.grim} - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -t image/png";
           "Shift+Print".spawn-sh = "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -t image/png";
