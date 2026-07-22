@@ -1,0 +1,9 @@
+[column_width]
+max_line_length = 120
+
+[line_endings]
+Unix = "\n"
+
+[indent]
+indent_type = "Spaces"
+indent_width = 2

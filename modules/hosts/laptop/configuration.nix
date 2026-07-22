@@ -4,6 +4,8 @@
 {
   imports = [
       self.nixosModules.laptopHardware
+      self.nixosModules.nvim
+      self.nixosModules.alacritty
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -86,7 +88,6 @@
     neovim
     git
     gh
-    alacritty
   ];
 
   system.stateVersion = "26.05"; # don't change
