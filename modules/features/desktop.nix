@@ -18,6 +18,7 @@
       self.nixosModules.mako
       self.nixosModules.wallpaper
       self.nixosModules.fish
+      self.nixosModules.gaming
     ];
 
     services.xserver.enable = true;
