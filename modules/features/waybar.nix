@@ -9,10 +9,18 @@
         "spacing": 8,
         "modules-left": ["niri/workspaces"],
         "modules-center": ["clock"],
-        "modules-right": ["pulseaudio", "network", "battery", "tray"],
+        "modules-right": ["cpu", "memory", "pulseaudio", "network", "battery", "tray"],
         "niri/workspaces": {
           "format": "{index}",
           "show-icons": false
+        },
+        "cpu": {
+          "format": " {usage}%",
+          "tooltip-format": "CPU: {avg_frequency} GHz  ({usage}%)"
+        },
+        "memory": {
+          "format": " {percentage}%",
+          "tooltip-format": "RAM: {used} GB / {total} GB ({percentage}%)"
         },
         "clock": {
           "format": "{:%a %d %b  %H:%M}",
@@ -35,7 +43,8 @@
         "battery": {
           "format": "{icon} {capacity}%",
           "format-icons": ["", "", "", "", ""],
-          "format-charging": " {capacity}%",
+          "format-charging": " {capacity}%",
+          "format-full": " ",
           "tooltip-format": "{timeTo} remaining"
         },
         "tray": {
@@ -80,12 +89,22 @@
         border-bottom: 2px solid #bf616a;
       }
 
+      #cpu,
+      #memory,
       #clock,
       #pulseaudio,
       #network,
       #battery,
       #tray {
         padding: 0 10px;
+      }
+
+      #cpu {
+        color: #88c0d0;
+      }
+
+      #memory {
+        color: #81a1c1;
       }
 
       #clock {
