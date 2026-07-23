@@ -10,15 +10,7 @@
   }: {
     imports = [
       self.nixosModules.laptopHardware
-      self.nixosModules.nvim
-      self.nixosModules.alacritty
-      self.nixosModules.niri
-      self.nixosModules.ly
-      self.nixosModules.fuzzel
-      self.nixosModules.waybar
-      self.nixosModules.mako
-      self.nixosModules.wallpaper
-      self.nixosModules.fish
+      self.nixosModules.desktop
     ];
 
     nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -47,33 +39,6 @@
       LC_TELEPHONE = "en_GB.UTF-8";
       LC_TIME = "en_GB.UTF-8";
     };
-
-    services.xserver.enable = true;
-
-    # Configure keymap in X11
-    services.xserver.xkb = {
-      layout = "us";
-      variant = "";
-    };
-
-    # Enable CUPS to print documents.
-    services.printing.enable = true;
-
-    # Enable sound with pipewire.
-    services.pulseaudio.enable = false;
-    security.rtkit.enable = true;
-    services.pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-    };
-
-    services.libinput.enable = true;
-
-    fonts.packages = with pkgs; [
-      nerd-fonts.jetbrains-mono
-    ];
 
     users.users."grae" = {
       isNormalUser = true;
