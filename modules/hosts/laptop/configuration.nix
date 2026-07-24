@@ -54,6 +54,8 @@
       git
     ];
 
+    programs.niri.bar = "quickshell";
+
     system.stateVersion = "26.05"; # don't change
   };
 }
