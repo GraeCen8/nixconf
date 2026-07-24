@@ -21,6 +21,7 @@
       fzf
       playerctl
       xwayland-satellite
+      self.packages.${pkgs.stdenv.hostPlatform.system}.myNoctalia
     ];
   };
 
@@ -54,7 +55,7 @@
 
         spawn-at-startup = [
           ["${lib.getExe pkgs.swaybg}" "--image" "${self.packages.${pkgs.stdenv.hostPlatform.system}.defaultWallpaper}/wallpaper.png"]
-          ["${lib.getExe pkgs.waybar}"]
+          ["${lib.getExe (self.packages.${pkgs.stdenv.hostPlatform.system}.myNoctalia)}"]
           ["${lib.getExe pkgs.mako}"]
         ];
 

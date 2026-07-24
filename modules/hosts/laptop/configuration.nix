@@ -44,16 +44,6 @@
       isNormalUser = true;
       description = "grae ceney";
       extraGroups = ["networkmanager" "wheel"];
-      packages = with pkgs; [
-        vim
-        wget
-        neovim
-        git
-        gh
-        lazygit
-        opencode
-        librewolf
-      ];
     };
 
     programs.firefox.enable = true;
