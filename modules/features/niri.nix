@@ -56,7 +56,7 @@
       layout = {
         gaps = 10;
         border = {
-          width = 0.5;
+          width = 0.25;
           "active-color" = "#AAAAAA";
           "inactive-color" = "#4C566A";
         };
@@ -73,7 +73,6 @@
         "Mod+u".focus-workspace-up = _: {};
         "Mod+i".focus-workspace-down = _: {};
 
-        "Mod+W".close-window = _: {};
         "Mod+Shift+Q".quit = _: {};
         "Mod+V".switch-layout = "next";
 
@@ -127,6 +126,24 @@
 
         "XF86MonBrightnessDown".spawn-sh = "${pkgs.brightnessctl}/bin/brightnessctl set 5%-";
         "XF86MonBrightnessUp".spawn-sh = "${pkgs.brightnessctl}/bin/brightnessctl set 5%+";
+
+        "Mod+Ctrl+h"."set-column-width" = "-10%";
+        "Mod+Ctrl+l"."set-column-width" = "+10%";
+        "Mod+Ctrl+j"."set-window-height" = "-10%";
+        "Mod+Ctrl+k"."set-window-height" = "+10%";
+
+        "Mod+comma"."consume-window-into-column" = _: {};
+        "Mod+period"."expel-window-from-column" = _: {};
+
+        "Mod+Minus"."set-column-width" = "proportion 0.5";
+        "Mod+Equal"."set-column-width" = "proportion 1.0";
+
+        "Mod+E".spawn-sh = lib.getExe pkgs.nautilus;
+
+        "Mod+Shift+Page_Up"."move-window-to-workspace-up" = _: {};
+        "Mod+Shift+Page_Down"."move-window-to-workspace-down" = _: {};
+
+        "Mod+W".close-window = _: {};
       };
     };
 
