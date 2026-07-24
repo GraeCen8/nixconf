@@ -13,8 +13,6 @@
       package = self.packages.${pkgs.stdenv.hostPlatform.system}.myNiri;
     };
 
-    programs.xwayland.enable = true;
-
     environment.systemPackages = with pkgs; [
       grim
       slurp
@@ -22,6 +20,7 @@
       brightnessctl
       fzf
       playerctl
+      xwayland-satellite
     ];
   };
 
