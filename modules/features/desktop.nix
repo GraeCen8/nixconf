@@ -18,6 +18,9 @@
       self.nixosModules.mako
       self.nixosModules.wallpaper
       self.nixosModules.fish
+      self.nixosModules.gaming
+      self.nixosModules.noctalia
+      self.nixosModules.homeManager
     ];
 
     services.xserver.enable = true;

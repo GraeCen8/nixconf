@@ -15,11 +15,11 @@ return {
       "rust",
       "c",
       "cpp",
+      "odin",
       "svelte",
       "astro",
       "json",
       "jsonc",
-      "nix",
     },
   },
 }

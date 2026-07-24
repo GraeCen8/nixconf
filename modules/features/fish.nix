@@ -316,6 +316,9 @@
       ripgrep
       starship
       zoxide
+      unzip
+      gcc
+      clang
     ];
   };
 }
