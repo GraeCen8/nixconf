@@ -54,7 +54,8 @@
       git
     ];
 
-    programs.niri.bar = "quickshell";
+
+    programs.niri.bar = "noctalia";
 
     system.stateVersion = "26.05"; # don't change
   };

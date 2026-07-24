@@ -15,7 +15,7 @@
     config = {
       programs.niri = {
         enable = true;
-        package = {
+        package = lib.mkForce {
           waybar = myNiri-waybar;
           noctalia = myNiri-noctalia;
           quickshell = myNiri-quickshell;
@@ -41,6 +41,7 @@
     ...
   }: let
     baseSettings = {
+
       "prefer-no-csd" = true;
 
       input = {
@@ -146,8 +147,13 @@
       myNiri-noctalia = mkNiri ["${lib.getExe self.packages.${system}.myNoctalia}"];
       myNiri-quickshell = mkNiri ["${lib.getExe self.packages.${system}.myQuickshell}"];
 
-      myQuickshell = pkgs.writeShellScriptBin "my-quickshell" ''
-        exec ${lib.getExe pkgs.quickshell} ${./shell.qml}
+      myQuickshell = let
+        qmlDir = pkgs.runCommand "quickshell-config" {} ''
+          mkdir -p $out
+          cp ${./shell.qml} $out/shell.qml
+        '';
+      in pkgs.writeShellScriptBin "my-quickshell" ''
+        exec ${lib.getExe pkgs.quickshell} --path ${qmlDir}
       '';
     };
   };
