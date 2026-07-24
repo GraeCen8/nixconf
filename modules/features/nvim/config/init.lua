@@ -23,11 +23,6 @@ require("lazy").setup({
   },
 
   { import = "plugins" },
-
-  -- disable mason, tools are installed via nix
-  { "williamboman/mason.nvim", enabled = false },
-  { "williamboman/mason-lspconfig.nvim", enabled = false },
-  { "WhoIsSethDaniel/mason-tool-installer.nvim", enabled = false },
 }, lazy_config)
 
 -- load theme
