@@ -45,7 +45,7 @@
       "prefer-no-csd" = true;
 
       input = {
-        keyboard.xkb.layout = "us,ua";
+        keyboard.xkb.layout = "us";
         "focus-follows-mouse" = _: {};
         touchpad = {
           tap = _: {};
@@ -70,11 +70,11 @@
         "Mod+n".spawn-sh = "wallpaper-next";
         "Mod+o".toggle-overview = _: {};
 
-        "Mod+u".focus-workspace-up = _: {};
-        "Mod+i".focus-workspace-down = _: {};
+        "Mod+i".focus-workspace-up = _: {};
+        "Mod+u".focus-workspace-down = _: {};
 
         "Mod+Shift+Q".quit = _: {};
-        "Mod+V".switch-layout = "next";
+
 
         "Mod+F".maximize-column = _: {};
         "Mod+Ctrl+F".fullscreen-window = _: {};
@@ -91,8 +91,6 @@
         "Mod+Shift+l".move-column-right = _: {};
         "Mod+Shift+k".move-window-up = _: {};
         "Mod+Shift+j".move-window-down = _: {};
-
-        "Shift+Tab"."switch-preset-column-width" = _: {};
 
         "Print".spawn-sh = "${lib.getExe pkgs.grim} - | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -t image/png";
         "Shift+Print".spawn-sh = "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" | ${lib.getExe' pkgs.wl-clipboard "wl-copy"} -t image/png";
@@ -135,13 +133,13 @@
         "Mod+comma"."consume-window-into-column" = _: {};
         "Mod+period"."expel-window-from-column" = _: {};
 
-        "Mod+Minus"."set-column-width" = "proportion 0.5";
-        "Mod+Equal"."set-column-width" = "proportion 1.0";
+        "Mod+Minus"."set-column-width" = "50%";
+        "Mod+Equal"."set-column-width" = "100%";
 
         "Mod+E".spawn-sh = lib.getExe pkgs.nautilus;
 
-        "Mod+Shift+Page_Up"."move-window-to-workspace-up" = _: {};
-        "Mod+Shift+Page_Down"."move-window-to-workspace-down" = _: {};
+        "Mod+Shift+u"."move-column-to-workspace-up" = _: {};
+        "Mod+Shift+i"."move-column-to-workspace-down" = _: {};
 
         "Mod+W".close-window = _: {};
       };
