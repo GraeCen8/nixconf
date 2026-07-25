@@ -55,6 +55,7 @@ C-j = "jump_view_down"
 C-k = "jump_view_up"
 C-l = "jump_view_right"
 C-space = "goto_word"
+C-g = [":new", ":insert-output lazygit", ":buffer-close!", ":redraw"]
 
 [keys.select]
 C-h = "jump_view_left"
@@ -62,4 +63,4 @@ C-j = "jump_view_down"
 C-k = "jump_view_up"
 C-l = "jump_view_right"
 C-space = "goto_word"
-
+C-g = [":new", ":insert-output lazygit", ":buffer-close!", ":redraw"]
