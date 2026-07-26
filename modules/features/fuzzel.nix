@@ -12,14 +12,14 @@
       terminal = alacritty
 
       [colors]
-      background = ${c.bg}dd
-      text = ${c.fg}ff
-      prompt = ${c.border-active}ff
-      input = ${c.fg}ff
-      match = ${c.accent}ff
-      selection = ${c.bg-alt}ff
-      selection-text = ${c.fg}ff
-      border = ${c.border-active}ff
+      background = ${lib.removePrefix "#" c.bg}dd
+      text = ${lib.removePrefix "#" c.fg}ff
+      prompt = ${lib.removePrefix "#" c.border-active}ff
+      input = ${lib.removePrefix "#" c.fg}ff
+      match = ${lib.removePrefix "#" c.accent}ff
+      selection = ${lib.removePrefix "#" c.bg-alt}ff
+      selection-text = ${lib.removePrefix "#" c.fg}ff
+      border = ${lib.removePrefix "#" c.border-active}ff
     '';
   in {
     environment.systemPackages = with pkgs; [ fuzzel ];
