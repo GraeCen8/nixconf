@@ -1,7 +1,6 @@
 {
   nord = {
     name = "Nord";
-    wallpaper = ./walls/nord.png;
     colors = {
       bg = "#2e3440";
       bg-alt = "#3b4252";
@@ -40,7 +39,6 @@
 
   catppuccin-mocha = {
     name = "Catppuccin Mocha";
-    wallpaper = ./walls/catppuccin-mocha.png;
     colors = {
       bg = "#1e1e2e";
       bg-alt = "#313244";
@@ -79,7 +77,6 @@
 
   tokyo-night = {
     name = "Tokyo Night";
-    wallpaper = ./walls/tokyo-night.png;
     colors = {
       bg = "#1a1b26";
       bg-alt = "#24283b";
@@ -118,7 +115,6 @@
 
   rose-pine = {
     name = "Rose Pine";
-    wallpaper = ./walls/rose-pine.png;
     colors = {
       bg = "#191724";
       bg-alt = "#1f1d2e";

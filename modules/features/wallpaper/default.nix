@@ -49,7 +49,6 @@
   }: let
     inherit (pkgs.stdenv.hostPlatform) system;
     themes = import ../../../themes-data.nix;
-    currentTheme = themes.${config.system.theme.name};
     wallpapersDir = self.packages.${system}.wallpapers;
     defaultWallpaper = self.packages.${system}.defaultWallpaper;
 
