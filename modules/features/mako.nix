@@ -1,7 +1,7 @@
 { self, inputs, ... }: {
   flake.nixosModules.mako = { pkgs, lib, config, ... }:
   let
-    themes = import ../themes/themes.nix;
+    themes = import ./themes/themes-data.nix;
     theme = themes.${config.system.theme.name};
     c = theme.colors;
 

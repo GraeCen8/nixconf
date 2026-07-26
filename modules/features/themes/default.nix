@@ -9,7 +9,7 @@
     lib,
     ...
   }: let
-    themes = import ./themes.nix;
+    themes = import ./themes-data.nix;
     currentTheme = themes.${config.system.theme.name};
   in {
     options.system.theme = {

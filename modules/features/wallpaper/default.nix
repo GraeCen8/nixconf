@@ -8,7 +8,7 @@
     lib,
     ...
   }: let
-    themes = import ../themes/themes.nix;
+    themes = import ./themes/themes-data.nix;
   in {
     packages.defaultWallpaper = pkgs.runCommand "nord-wallpaper" {
       buildInputs = [ pkgs.imagemagick ];
@@ -48,7 +48,7 @@
     ...
   }: let
     inherit (pkgs.stdenv.hostPlatform) system;
-    themes = import ../themes/themes.nix;
+    themes = import ./themes/themes-data.nix;
     currentTheme = themes.${config.system.theme.name};
     wallpapersDir = self.packages.${system}.wallpapers;
     defaultWallpaper = self.packages.${system}.defaultWallpaper;
