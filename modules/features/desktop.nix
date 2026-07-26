@@ -9,6 +9,7 @@
     ...
   }: {
     imports = [
+      self.nixosModules.themes
       self.nixosModules.nvim
       self.nixosModules.helix
       self.nixosModules.alacritty

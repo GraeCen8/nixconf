@@ -7,7 +7,9 @@
     pkgs,
     lib,
     ...
-  }: {
+  }: let
+    themes = import ../themes/themes.nix;
+  in {
     packages.defaultWallpaper = pkgs.runCommand "nord-wallpaper" {
       buildInputs = [ pkgs.imagemagick ];
     } ''
@@ -16,6 +18,18 @@
         gradient:'#2E3440'-'#3B4252' \
         $out/wallpaper.png
     '';
+
+    packages.themeWallpapers = pkgs.symlinkJoin {
+      name = "theme-wallpapers";
+      paths = lib.mapAttrsToList (name: theme: pkgs.runCommand "${name}-wallpaper" {
+        buildInputs = [ pkgs.imagemagick ];
+      } ''
+        mkdir -p $out
+        ${pkgs.imagemagick}/bin/convert -size 1920x1080 \
+          gradient:'${theme.colors.bg}'-'${theme.colors.bg-alt}' \
+          $out/wallpaper.png
+      '') themes;
+    };
 
     packages.wallpapers = pkgs.stdenv.mkDerivation {
       name = "my-wallpapers";
@@ -34,6 +48,8 @@
     ...
   }: let
     inherit (pkgs.stdenv.hostPlatform) system;
+    themes = import ../themes/themes.nix;
+    currentTheme = themes.${config.system.theme.name};
     wallpapersDir = self.packages.${system}.wallpapers;
     defaultWallpaper = self.packages.${system}.defaultWallpaper;
 

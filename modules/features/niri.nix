@@ -5,43 +5,11 @@
     config,
     ...
   }: let
-    inherit (self.packages.${pkgs.stdenv.hostPlatform.system}) myNiri-waybar myNiri-noctalia myNiri-quickshell;
-  in {
-    options.programs.niri.bar = lib.mkOption {
-      type = lib.types.enum [ "waybar" "noctalia" "quickshell" ];
-      default = "noctalia";
-    };
+    themes = import ../themes/themes.nix;
+    theme = themes.${config.system.theme.name};
+    c = theme.colors;
 
-    config = {
-      programs.niri = {
-        enable = true;
-        package = lib.mkForce {
-          waybar = myNiri-waybar;
-          noctalia = myNiri-noctalia;
-          quickshell = myNiri-quickshell;
-        }.${config.programs.niri.bar};
-      };
-
-      environment.systemPackages = with pkgs; [
-        grim
-        slurp
-        wl-clipboard
-        brightnessctl
-        fzf
-        playerctl
-        xwayland-satellite
-      ];
-    };
-  };
-
-  perSystem = {
-    pkgs,
-    lib,
-    system,
-    ...
-  }: let
     baseSettings = {
-
       "prefer-no-csd" = true;
 
       input = {
@@ -56,9 +24,9 @@
       layout = {
         gaps = 10;
         border = {
-          width = 0.25;
-          "active-color" = "#AAAAAA";
-          "inactive-color" = "#4C566A";
+          width = theme.niri.border-width;
+          "active-color" = c.border-active;
+          "inactive-color" = c.border;
         };
       };
 
@@ -146,7 +114,7 @@
     };
 
     commonStartup = [
-      ["${lib.getExe pkgs.swaybg}" "--image" "${self.packages.${system}.defaultWallpaper}/wallpaper.png"]
+      ["${lib.getExe pkgs.swaybg}" "--image" "${self.packages.${pkgs.stdenv.hostPlatform.system}.defaultWallpaper}/wallpaper.png"]
       ["${lib.getExe pkgs.mako}"]
     ];
 
@@ -156,16 +124,77 @@
         spawn-at-startup = commonStartup ++ [barCmd];
       };
     };
-  in {
-    packages = {
-      myNiri-waybar = mkNiri ["${lib.getExe pkgs.waybar}"];
-      myNiri-noctalia = mkNiri ["${lib.getExe self.packages.${system}.myNoctalia}"];
-      myNiri-quickshell = mkNiri ["${lib.getExe self.packages.${system}.myQuickshell}"];
 
+    myNiri-waybar = mkNiri ["${lib.getExe pkgs.waybar}"];
+    myNiri-noctalia = mkNiri ["${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.myNoctalia}"];
+    myNiri-quickshell = mkNiri ["${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.myQuickshell}"];
+  in {
+    options.programs.niri.bar = lib.mkOption {
+      type = lib.types.enum [ "waybar" "noctalia" "quickshell" ];
+      default = "noctalia";
+    };
+
+    config = {
+      programs.niri = {
+        enable = true;
+        package = lib.mkForce {
+          waybar = myNiri-waybar;
+          noctalia = myNiri-noctalia;
+          quickshell = myNiri-quickshell;
+        }.${config.programs.niri.bar};
+      };
+
+      environment.systemPackages = with pkgs; [
+        grim
+        slurp
+        wl-clipboard
+        brightnessctl
+        fzf
+        playerctl
+        xwayland-satellite
+      ];
+    };
+  };
+
+  perSystem = {
+    pkgs,
+    lib,
+    system,
+    ...
+  }: {
+    packages = {
       myQuickshell = let
+        themes = import ../themes/themes.nix;
+        theme = themes.nord;
+        c = theme.colors;
+
+        qmlContent = builtins.readFile ./shell.qml;
+        themedQml = builtins.replaceStrings
+          [
+            "property color bg: \"#2e3440\""
+            "property color surface: \"#3b4252\""
+            "property color dim: \"#4c566a\""
+            "property color fg: \"#d8dee9\""
+            "property color accent: \"#81a1c1\""
+            "property color green: \"#a3be8c\""
+            "property color red: \"#bf616a\""
+            "property color yellow: \"#ebcb8b\""
+          ]
+          [
+            "property color bg: \"${c.bg}\""
+            "property color surface: \"${c.bg-alt}\""
+            "property color dim: \"${c.bg-lighter}\""
+            "property color fg: \"${c.fg}\""
+            "property color accent: \"${c.border-active}\""
+            "property color green: \"${c.success}\""
+            "property color red: \"${c.error}\""
+            "property color yellow: \"${c.warning}\""
+          ]
+          qmlContent;
+
         qmlDir = pkgs.runCommand "quickshell-config" {} ''
           mkdir -p $out
-          cp ${./shell.qml} $out/shell.qml
+          echo '${themedQml}' > $out/shell.qml
         '';
       in pkgs.writeShellScriptBin "my-quickshell" ''
         exec ${lib.getExe pkgs.quickshell} --path ${qmlDir}

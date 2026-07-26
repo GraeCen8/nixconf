@@ -58,6 +58,7 @@
     services.upower.enable = true;
 
     programs.niri.bar = "waybar";
+    system.theme.name = "nord";
 
     system.stateVersion = "26.05"; # don't change
   };
