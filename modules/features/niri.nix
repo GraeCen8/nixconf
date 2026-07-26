@@ -12,6 +12,11 @@
     baseSettings = {
       "prefer-no-csd" = true;
 
+      "window-rule" = [{
+        "geometry-corner-radius" = 8;
+        "clip-to-geometry" = true;
+      }];
+
       input = {
         keyboard.xkb.layout = "us";
         "focus-follows-mouse" = _: {};

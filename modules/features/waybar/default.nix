@@ -130,7 +130,7 @@
       }
     '';
   in {
-    environment.systemPackages = with pkgs; [ waybar pavucontrol ];
+    environment.systemPackages = with pkgs; [ waybar pavucontrol zscroll wifitui ];
     environment.etc."xdg/waybar/config.jsonc".source = waybarConfig;
     environment.etc."xdg/waybar/style.css".source = waybarStyle;
   };

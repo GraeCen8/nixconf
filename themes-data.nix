@@ -1,6 +1,7 @@
 {
   nord = {
     name = "Nord";
+    helix-theme = "nord";
     colors = {
       bg = "#2e3440";
       bg-alt = "#3b4252";
@@ -34,11 +35,12 @@
     };
     alacritty.opacity = 0.9;
     mako.border-radius = 6;
-    niri.border-width = 2;
+    niri.border-width = 1;
   };
 
   catppuccin-mocha = {
     name = "Catppuccin Mocha";
+    helix-theme = "catppuccin_mocha";
     colors = {
       bg = "#1e1e2e";
       bg-alt = "#313244";
@@ -72,11 +74,12 @@
     };
     alacritty.opacity = 0.9;
     mako.border-radius = 12;
-    niri.border-width = 2;
+    niri.border-width = 1;
   };
 
   tokyo-night = {
     name = "Tokyo Night";
+    helix-theme = "tokyonight";
     colors = {
       bg = "#1a1b26";
       bg-alt = "#24283b";
@@ -110,11 +113,12 @@
     };
     alacritty.opacity = 0.9;
     mako.border-radius = 8;
-    niri.border-width = 2;
+    niri.border-width = 1;
   };
 
   rose-pine = {
     name = "Rose Pine";
+    helix-theme = "rose_pine";
     colors = {
       bg = "#191724";
       bg-alt = "#1f1d2e";
@@ -148,6 +152,6 @@
     };
     alacritty.opacity = 0.9;
     mako.border-radius = 10;
-    niri.border-width = 2;
+    niri.border-width = 1;
   };
 }

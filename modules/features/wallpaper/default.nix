@@ -81,7 +81,7 @@
 
     wallpaperInit = pkgs.writeShellScriptBin "wallpaper-init" ''
       WALLPAPER_DIR="${themeWpDir}"
-      DEFAULT=$(find "$WALLPAPER_DIR" -type f -name '*.png' -print -quit 2>/dev/null)
+      DEFAULT=$(find "$WALLPAPER_DIR" -type f \( -name '*.jpg' -o -name '*.jpeg' -o -name '*.png' \) -print -quit 2>/dev/null)
       if [ -z "$DEFAULT" ]; then
         echo "No theme wallpaper found"
         exit 1

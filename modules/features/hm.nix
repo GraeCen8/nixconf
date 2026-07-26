@@ -48,11 +48,6 @@
 
     homeManagerModules.helix = { config, pkgs, lib, ... }: {
     home.packages = with pkgs; [ helix ];
-
-    home.activation.createHelixSymlink = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      rm -rf ${config.home.homeDirectory}/.config/helix
-      ln -sfn /home/grae/nixos/modules/features/helix/config ${config.home.homeDirectory}/.config/helix
-    '';
     };
 
     homeManagerModules.noctalia = { config, pkgs, lib, ... }: {
