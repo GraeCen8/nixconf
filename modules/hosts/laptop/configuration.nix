@@ -57,7 +57,7 @@
 
     services.upower.enable = true;
 
-    programs.niri.bar = "noctalia";
+    programs.niri.bar = "waybar";
 
     system.stateVersion = "26.05"; # don't change
   };
