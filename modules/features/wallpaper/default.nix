@@ -8,47 +8,7 @@
     lib,
     ...
   }: let
-    themes = import ../../../themes-data.nix;
-
-    mkThemeWallpapers = name: theme: let
-      c = theme.colors;
-    in pkgs.runCommand "${name}-wallpapers" {
-      buildInputs = [ pkgs.imagemagick ];
-    } ''
-      mkdir -p $out
-
-      # 1: Horizontal gradient (bg → bg-alt)
-      ${pkgs.imagemagick}/bin/convert -size 1920x1080 \
-        gradient:'${c.bg}'-'${c.bg-alt}' \
-        $out/1-horizontal.png
-
-      # 2: Dark to light vertical feel
-      ${pkgs.imagemagick}/bin/convert -size 1920x1080 \
-        gradient:'${c.bg}'-'${c.bg-light}' \
-        -rotate 90 -gravity center -crop 1920x1080+0+0 +repage \
-        $out/2-vertical.png
-
-      # 3: Accent-tinted overlay
-      ${pkgs.imagemagick}/bin/convert -size 1920x1080 xc:'${c.bg}' \
-        -fill '${c.accent}15' -draw "rectangle 0,0 1920,540" \
-        -fill '${c.bg-alt}20' -draw "rectangle 0,540 1920,1080" \
-        $out/3-overlay.png
-
-      # 4: Radial glow
-      ${pkgs.imagemagick}/bin/convert -size 1920x1080 xc:'${c.bg}' \
-        -fill '${c.accent}08' -draw "circle 960,540 960,200" \
-        -fill '${c.bg-alt}10' -draw "circle 960,540 960,100" \
-        $out/4-radial.png
-    '';
-  in {
-    packages.defaultWallpaper = mkThemeWallpapers "default" themes.nord;
-
-    packages.themeWallpapers = pkgs.symlinkJoin {
-      name = "theme-wallpapers";
-      paths = lib.mapAttrsToList mkThemeWallpapers themes;
-    };
-
-    packages.wallpapers = pkgs.stdenv.mkDerivation {
+    wallpapers = pkgs.stdenv.mkDerivation {
       name = "my-wallpapers";
       src = ./walls;
       installPhase = ''
@@ -56,6 +16,8 @@
         cp -r . $out/
       '';
     };
+  in {
+    packages.wallpapers = wallpapers;
   };
 
   flake.nixosModules.wallpaper = {
@@ -65,9 +27,8 @@
     ...
   }: let
     inherit (pkgs.stdenv.hostPlatform) system;
-    themes = import ../../../themes-data.nix;
     themeName = config.system.theme.name;
-    themeWpDir = "${self.packages.${system}.themeWallpapers}/${themeName}-wallpapers";
+    themeWpDir = "${self.packages.${system}.wallpapers}/${themeName}";
 
     wallpaperSet = pkgs.writeShellScriptBin "wallpaper-set" ''
       set -e
