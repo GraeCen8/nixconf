@@ -58,7 +58,7 @@
     services.upower.enable = true;
 
     programs.niri.bar = "waybar"; # "waybar" "noctalia" "quickshell"
-    system.theme.name = "nord"; # "nord" "catppuccin-mocha" "tokyo-night" "rose-pine"
+    system.theme.name = "catppuccin-mocha"; # "nord" "catppuccin-mocha" "tokyo-night" "rose-pine"
 
     system.stateVersion = "26.05"; # don't change
   };
