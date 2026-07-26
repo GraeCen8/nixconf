@@ -1,6 +1,10 @@
 { self, inputs, ... }: {
   flake.nixosModules.fuzzel = { pkgs, lib, config, ... }:
   let
+    themes = import ../../themes-data.nix;
+    theme = themes.${config.system.theme.name};
+    c = theme.colors;
+
     fuzzelConfig = pkgs.writeText "fuzzel.ini" ''
       [main]
       font = JetBrainsMono Nerd Font:size=12
@@ -8,14 +12,14 @@
       terminal = alacritty
 
       [colors]
-      background = 2e3440dd
-      text = d8dee9ff
-      prompt = 81a1c1ff
-      input = d8dee9ff
-      match = 88c0d0ff
-      selection = 3b4252ff
-      selection-text = d8dee9ff
-      border = 81a1c1ff
+      background = ${lib.removePrefix "#" c.bg}dd
+      text = ${lib.removePrefix "#" c.fg}ff
+      prompt = ${lib.removePrefix "#" c.border-active}ff
+      input = ${lib.removePrefix "#" c.fg}ff
+      match = ${lib.removePrefix "#" c.accent}ff
+      selection = ${lib.removePrefix "#" c.bg-alt}ff
+      selection-text = ${lib.removePrefix "#" c.fg}ff
+      border = ${lib.removePrefix "#" c.border-active}ff
     '';
   in {
     environment.systemPackages = with pkgs; [ fuzzel ];

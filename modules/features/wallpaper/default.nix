@@ -7,17 +7,8 @@
     pkgs,
     lib,
     ...
-  }: {
-    packages.defaultWallpaper = pkgs.runCommand "nord-wallpaper" {
-      buildInputs = [ pkgs.imagemagick ];
-    } ''
-      mkdir -p $out
-      ${pkgs.imagemagick}/bin/convert -size 1920x1080 \
-        gradient:'#2E3440'-'#3B4252' \
-        $out/wallpaper.png
-    '';
-
-    packages.wallpapers = pkgs.stdenv.mkDerivation {
+  }: let
+    wallpapers = pkgs.stdenv.mkDerivation {
       name = "my-wallpapers";
       src = ./walls;
       installPhase = ''
@@ -25,6 +16,8 @@
         cp -r . $out/
       '';
     };
+  in {
+    packages.wallpapers = wallpapers;
   };
 
   flake.nixosModules.wallpaper = {
@@ -34,16 +27,13 @@
     ...
   }: let
     inherit (pkgs.stdenv.hostPlatform) system;
-    wallpapersDir = self.packages.${system}.wallpapers;
-    defaultWallpaper = self.packages.${system}.defaultWallpaper;
+    themeName = config.system.theme.name;
+    themeWpDir = "${self.packages.${system}.wallpapers}/${themeName}";
 
     wallpaperSet = pkgs.writeShellScriptBin "wallpaper-set" ''
-      WALLPAPER_DIR="${wallpapersDir}"
       set -e
       if [ -z "$1" ]; then
         echo "Usage: wallpaper-set <path-to-image>"
-        echo ""
-        echo "  wallpaper-set /path/to/image.jpg"
         exit 1
       fi
       pkill swaybg 2>/dev/null || true
@@ -53,7 +43,7 @@
     '';
 
     wallpaperNext = pkgs.writeShellScriptBin "wallpaper-next" ''
-      WALLPAPER_DIR="${wallpapersDir}"
+      WALLPAPER_DIR="${themeWpDir}"
       CURRENT=$(cat /tmp/current-wallpaper 2>/dev/null || echo "")
 
       IDX=0
@@ -86,14 +76,20 @@
       sleep 0.2
       swaybg --image "$TARGET" --mode fill &
       echo "$TARGET" > /tmp/current-wallpaper
-      notify-send "wallpaper-next" "$TARGET"
+      notify-send "wallpaper-next" "$(basename "$TARGET")"
     '';
 
     wallpaperInit = pkgs.writeShellScriptBin "wallpaper-init" ''
-      DEFAULT="${defaultWallpaper}/wallpaper.png"
+      WALLPAPER_DIR="${themeWpDir}"
+      DEFAULT=$(find "$WALLPAPER_DIR" -type f -name '*.png' -print -quit 2>/dev/null)
+      if [ -z "$DEFAULT" ]; then
+        echo "No theme wallpaper found"
+        exit 1
+      fi
       pkill swaybg 2>/dev/null || true
       sleep 0.2
       swaybg --image "$DEFAULT" --mode fill &
+      echo "$DEFAULT" > /tmp/current-wallpaper
     '';
   in {
     environment.systemPackages = with pkgs; [

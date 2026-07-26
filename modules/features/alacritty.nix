@@ -2,9 +2,13 @@
 {
   flake.nixosModules.alacritty = { config, pkgs, lib, ... }:
   let
+    themes = import ../../themes-data.nix;
+    theme = themes.${config.system.theme.name};
+    c = theme.colors;
+
     alacrittyConfig = pkgs.writeText "alacritty.toml" ''
       [window]
-      opacity = 0.9
+      opacity = ${toString theme.alacritty.opacity}
       decorations = "full"
 
       [font]
@@ -20,28 +24,28 @@
       draw_bold_text_with_bright_colors = true
 
       [colors.primary]
-      background = "#2e3440"
-      foreground = "#d8dee9"
+      background = "${c.bg}"
+      foreground = "${c.fg}"
 
       [colors.normal]
-      black   = "#3b4252"
-      red     = "#bf616a"
-      green   = "#a3be8c"
-      yellow  = "#ebcb8b"
-      blue    = "#81a1c1"
-      magenta = "#b48ead"
-      cyan    = "#88c0d0"
-      white   = "#e5e9f0"
+      black   = "${c.black}"
+      red     = "${c.red}"
+      green   = "${c.green}"
+      yellow  = "${c.yellow}"
+      blue    = "${c.blue}"
+      magenta = "${c.magenta}"
+      cyan    = "${c.cyan}"
+      white   = "${c.white}"
 
       [colors.bright]
-      black   = "#4c566a"
-      red     = "#bf616a"
-      green   = "#a3be8c"
-      yellow  = "#ebcb8b"
-      blue    = "#81a1c1"
-      magenta = "#b48ead"
-      cyan    = "#8fbcbb"
-      white   = "#eceff4"
+      black   = "${c.bright-black}"
+      red     = "${c.bright-red}"
+      green   = "${c.bright-green}"
+      yellow  = "${c.bright-yellow}"
+      blue    = "${c.bright-blue}"
+      magenta = "${c.bright-magenta}"
+      cyan    = "${c.bright-cyan}"
+      white   = "${c.bright-white}"
 
       [cursor]
       style = "Beam"
