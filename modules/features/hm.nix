@@ -13,7 +13,7 @@
           home = {
             stateVersion = "26.05";
             username = "grae";
-            homeDirectory = "/home/grae";
+            homeDirectory = lib.mkDefault "/home/grae";
           };
 
           home.packages = with pkgs; [
@@ -32,6 +32,13 @@
             mpv
             zathura
           ];
+
+          services.udiskie = {
+            enable = true;
+            automount = true;
+            notify = true;
+            tray = "auto";
+          };
 
           imports = [
             self.homeManagerModules.nvim

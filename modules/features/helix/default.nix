@@ -96,7 +96,7 @@
       clang-tools
       svelte-language-server
       vue-language-server
-      dockerfile-language-server-nodejs
+      dockerfile-language-server
       docker-compose-language-service
       yaml-language-server
       taplo

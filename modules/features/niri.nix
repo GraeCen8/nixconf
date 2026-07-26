@@ -38,6 +38,7 @@
       binds = {
         "Mod+Return".spawn-sh = lib.getExe pkgs.alacritty;
         "Mod+D".spawn-sh = lib.getExe pkgs.fuzzel;
+        "Mod+V".spawn-sh = "${lib.getExe pkgs.clipman} pick -t fuzzel";
         "Mod+Tab".spawn-sh = lib.getExe pkgs.librewolf;
 
         "Mod+n".spawn-sh = "wallpaper-next";
@@ -123,6 +124,8 @@
     commonStartup = [
       ["wallpaper-init"]
       ["${lib.getExe pkgs.mako}"]
+      ["${lib.getExe pkgs.clipman}" "init" "-t" "mako"]
+      ["${lib.getExe pkgs.clipman}" "listen"]
     ];
 
     mkNiri = barCmd: inputs.wrapper-modules.wrappers.niri.wrap {
@@ -193,6 +196,7 @@
         fzf
         playerctl
         xwayland-satellite
+        clipman
       ];
     };
   };

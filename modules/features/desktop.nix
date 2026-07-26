@@ -24,6 +24,8 @@
       self.nixosModules.noctalia
       self.nixosModules.lock
       self.nixosModules.homeManager
+      self.nixosModules.power
+      self.nixosModules.misc
     ];
 
     services.xserver.enable = true;
