@@ -41,10 +41,11 @@
           "tooltip-format-wifi": "{essid} ({signalStrength}%)"
         },
         "battery": {
+          "bat": "BAT1",
           "format": "{icon} {capacity}%",
-          "format-icons": ["", "", "", "", ""],
-          "format-charging": " {capacity}%",
-          "format-full": " ",
+          "format-icons": ["", "", "", "", ""],
+          "format-charging": " {capacity}%",
+          "format-full": " ",
           "tooltip-format": "{timeTo} remaining"
         },
         "tray": {

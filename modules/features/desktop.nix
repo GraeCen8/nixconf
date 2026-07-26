@@ -10,6 +10,7 @@
   }: {
     imports = [
       self.nixosModules.nvim
+      self.nixosModules.helix
       self.nixosModules.alacritty
       self.nixosModules.niri
       self.nixosModules.ly

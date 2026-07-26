@@ -24,23 +24,34 @@
             lazygit
             opencode
             librewolf
+            helix
           ];
 
           imports = [
             self.homeManagerModules.nvim
+            self.homeManagerModules.helix
             self.homeManagerModules.noctalia
           ];
         };
       };
     };
 
-homeManagerModules.nvim = { config, pkgs, lib, ... }: {
+    homeManagerModules.nvim = { config, pkgs, lib, ... }: {
     home.packages = with pkgs; [ neovim ];
     home.sessionVariables.EDITOR = "nvim";
 
     home.activation.createNvimSymlink = lib.hm.dag.entryAfter ["writeBoundary"] ''
       rm -rf ${config.home.homeDirectory}/.config/nvim
       ln -sfn /home/grae/nixos/modules/features/nvim/config ${config.home.homeDirectory}/.config/nvim
+    '';
+    };
+
+    homeManagerModules.helix = { config, pkgs, lib, ... }: {
+    home.packages = with pkgs; [ helix ];
+
+    home.activation.createHelixSymlink = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      rm -rf ${config.home.homeDirectory}/.config/helix
+      ln -sfn /home/grae/nixos/modules/features/helix/config ${config.home.homeDirectory}/.config/helix
     '';
     };
 

@@ -54,6 +54,11 @@
       git
     ];
 
+
+    services.upower.enable = true;
+
+    programs.niri.bar = "noctalia";
+
     system.stateVersion = "26.05"; # don't change
   };
 }
