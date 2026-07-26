@@ -1,9 +1,9 @@
-@define-color highlight rgba(117, 241, 250, 1);
-@define-color dark-9 rgba(24, 24, 27, 1);
-@define-color dark-8 rgba(39, 39, 42, 1);
-@define-color dark-7 rgba(63, 63, 70, 1);
-@define-color dark-6 rgba(82, 82, 91, 1);
-@define-color dark-5 rgba(113, 113, 122, 1);
+@define-color highlight #88C0D0;
+@define-color dark-9 #2E3440;
+@define-color dark-8 #3B4252;
+@define-color dark-7 #434C5E;
+@define-color dark-6 #4C566A;
+@define-color dark-5 #81A1C1;
 
 * {
   /* `otf-font-awesome` is required to be installed for icons */
@@ -13,7 +13,7 @@
 
 window#waybar {
   background-color: @dark-9;
-  color: white;
+  color: #D8DEE9;
 }
 
 #workspaces button {
@@ -21,7 +21,7 @@ window#waybar {
   margin: 2px 0px 2px 2px;
   background: transparent;
   border-radius: 2px;
-  color: white;
+  color: #D8DEE9;
 }
 
 #workspaces button.active {
@@ -45,8 +45,8 @@ window#waybar {
 
 #submap,
 #workspaces button.urgent {
-  background: rgba(227, 81, 73, 1);
-  color: black;
+  background: #BF616A;
+  color: #2E3440;
 }
 
 #pulseaudio-slider {
@@ -79,7 +79,7 @@ window#waybar {
 }
 
 #media {
-  color: #42ff9f;
+  color: #A3BE8C;
   margin: 3px 0px 3px 40px;
 }
 
@@ -103,5 +103,5 @@ tooltip {
 }
 
 tooltip label {
-  color: white;
+  color: #D8DEE9;
 }
