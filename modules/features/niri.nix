@@ -114,7 +114,7 @@
     };
 
     commonStartup = [
-      ["${lib.getExe pkgs.swaybg}" "--image" "${self.packages.${pkgs.stdenv.hostPlatform.system}.defaultWallpaper}/wallpaper.png"]
+      ["wallpaper-init"]
       ["${lib.getExe pkgs.mako}"]
     ];
 
