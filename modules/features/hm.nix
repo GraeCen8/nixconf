@@ -21,10 +21,16 @@
             wget
             git
             gh
+            gh-dash
             lazygit
             opencode
             librewolf
             helix
+            yazi
+            clipman
+            imv
+            mpv
+            zathura
           ];
 
           imports = [

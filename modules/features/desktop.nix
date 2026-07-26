@@ -22,6 +22,7 @@
       self.nixosModules.fish
       self.nixosModules.gaming
       self.nixosModules.noctalia
+      self.nixosModules.lock
       self.nixosModules.homeManager
     ];
 

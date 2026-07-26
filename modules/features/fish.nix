@@ -1,6 +1,6 @@
 # this contains the whole shell and any config to go with it
 {
- self,
+  self,
   inputs,
   ...
 }: {
@@ -321,6 +321,7 @@
       gcc
       clang
       go
+      btop
     ];
   };
 }

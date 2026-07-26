@@ -48,6 +48,8 @@
 
         "Mod+Shift+Q".quit = _: {};
 
+        "Mod+Escape".spawn-sh = "lock-screen";
+
 
         "Mod+F".maximize-column = _: {};
         "Mod+Ctrl+F".fullscreen-window = _: {};
