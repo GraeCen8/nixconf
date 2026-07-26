@@ -2,7 +2,7 @@
 {
   flake.nixosModules.alacritty = { config, pkgs, lib, ... }:
   let
-    themes = import ./themes/themes-data.nix;
+    themes = import ../../themes-data.nix;
     theme = themes.${config.system.theme.name};
     c = theme.colors;
 
