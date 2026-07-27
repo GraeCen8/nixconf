@@ -147,6 +147,7 @@
           "property color green: \"#a3be8c\""
           "property color red: \"#bf616a\""
           "property color yellow: \"#ebcb8b\""
+          "property string fontFamily: \"JetBrainsMono Nerd Font\""
         ]
         [
           "property color bg: \"${c.bg}\""
@@ -157,6 +158,7 @@
           "property color green: \"${c.success}\""
           "property color red: \"${c.error}\""
           "property color yellow: \"${c.warning}\""
+          "property string fontFamily: \"${themes.font.family}\""
         ]
         qmlContent;
 

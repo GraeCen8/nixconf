@@ -15,6 +15,7 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/858e15fa-61dd-4904-8512-db5a76ab5c72";
       fsType = "ext4";
+      options = [ "noatime" ];
     };
 
   fileSystems."/boot" =
@@ -26,6 +27,6 @@
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault true;
 };
 }

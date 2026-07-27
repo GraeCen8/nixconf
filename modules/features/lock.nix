@@ -5,7 +5,6 @@
 }: {
   flake.nixosModules.lock = {
     pkgs,
-    lib,
     config,
     ...
   }: let
@@ -47,7 +46,7 @@
       key-hl-color=${c.accent}
       bs-hl-color=${c.error}
 
-      font=JetBrainsMono Nerd Font
+      font=${themes.font.family}
       font-size=14
 
       indicator-radius=80

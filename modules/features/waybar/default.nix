@@ -30,7 +30,7 @@
       @define-color dark-5 ${c.info};
 
       * {
-        font-family: JetBrainsMono Nerd Font Propo;
+        font-family: ${themes.font.family} Propo;
         font-size: 13px;
       }
 

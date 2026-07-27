@@ -5,8 +5,6 @@
 }: {
   flake.nixosModules.power = {
     pkgs,
-    lib,
-    config,
     ...
   }: let
     powerMenuScript = pkgs.writeShellScriptBin "power-menu" ''

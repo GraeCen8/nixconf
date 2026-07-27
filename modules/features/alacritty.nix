@@ -1,6 +1,6 @@
 { self, inputs, ... }:
 {
-  flake.nixosModules.alacritty = { config, pkgs, lib, ... }:
+  flake.nixosModules.alacritty = { config, pkgs, ... }:
   let
     themes = import ../../themes-data.nix;
     theme = themes.${config.system.theme.name};
@@ -12,10 +12,10 @@
       decorations = "full"
 
       [font]
-      size = 12.0
+      size = ${toString themes.font.size}.0
 
       [font.normal]
-      family = "JetBrainsMono Nerd Font"
+      family = "${themes.font.family}"
 
       [scrolling]
       history = 10000
@@ -55,7 +55,7 @@
       alacritty
     ];
 
-    environment.etc."alacritty/alacritty.toml".source = alacrittyConfig;
+    environment.etc."xdg/alacritty/alacritty.toml".source = alacrittyConfig;
 
     environment.sessionVariables = {
       TERMINAL = "alacritty";

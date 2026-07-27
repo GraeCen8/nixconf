@@ -9,23 +9,18 @@
         useGlobalPkgs = true;
         useUserPackages = true;
 
-        users.grae = { ... }: {
+        users.${config.user.name} = { ... }: {
           home = {
             stateVersion = "26.05";
-            username = "grae";
-            homeDirectory = lib.mkDefault "/home/grae";
+            username = config.user.name;
+            homeDirectory = "/home/${config.user.name}";
           };
 
           home.packages = with pkgs; [
-            vim
-            wget
-            git
             gh
             gh-dash
-            lazygit
             opencode
             librewolf
-            helix
             yazi
             clipman
             imv
@@ -42,7 +37,6 @@
 
           imports = [
             self.homeManagerModules.nvim
-            self.homeManagerModules.helix
             self.homeManagerModules.noctalia
           ];
         };
@@ -55,12 +49,8 @@
 
     home.activation.createNvimSymlink = lib.hm.dag.entryAfter ["writeBoundary"] ''
       rm -rf ${config.home.homeDirectory}/.config/nvim
-      ln -sfn /home/grae/nixos/modules/features/nvim/config ${config.home.homeDirectory}/.config/nvim
+      ln -sfn ${./nvim/config} ${config.home.homeDirectory}/.config/nvim
     '';
-    };
-
-    homeManagerModules.helix = { config, pkgs, lib, ... }: {
-    home.packages = with pkgs; [ helix ];
     };
 
     homeManagerModules.noctalia = { config, pkgs, lib, ... }: {

@@ -6,11 +6,13 @@
 }: {
   flake.nixosModules.fish = {
     pkgs,
-    lib,
     config,
     ...
   }: {
-    users.users.grae.shell = pkgs.fish;
+    users.users.${config.user.name}.shell = pkgs.fish;
+
+    programs.starship.enable = true;
+    programs.zoxide.enable = true;
 
     programs.fish = {
       enable = true;
@@ -18,7 +20,6 @@
       shellAliases = {
         # File system
         ls = "eza -lh --group-directories-first --icons=auto";
-        ll = "eza -lh --group-directories-first --icons=auto";
         la = "eza -a --group-directories-first --icons=auto";
         lsa = "ls -a";
         lt = "eza --tree --level=2 --long --icons --git";
@@ -64,9 +65,6 @@
       interactiveShellInit = ''
         set -g fish_history_max 32768
 
-        starship init fish | source
-        zoxide init fish | source
-
         # Functions from dotfiles
 
         function v
@@ -86,8 +84,8 @@
         end
 
         function ff
-          if test "$TERM" = xterm-kitty && command -v kitty >/dev/null
-            fzf --preview 'file=$(file --mime-type -b {}); switch $file; case "image/*"; kitty icat --clear --transfer-mode=memory --stdin=no --place={$FZF_PREVIEW_COLUMNS}x{$FZF_PREVIEW_LINES}@0x0 {}; case "*"; bat --style=numbers --color=always {}; end'
+          if test "$TERM" = alacritty && command -v alacritty >/dev/null
+            fzf --preview 'file=$(file --mime-type -b {}); switch $file; case "image/*"; alacritty msg --help >/dev/null 2>&1 && echo "image preview not supported"; case "*"; bat --style=numbers --color=always {}; end'
           else
             fzf --preview 'bat --style=numbers --color=always {}'
           end
@@ -312,15 +310,8 @@
     environment.systemPackages = with pkgs; [
       bat
       eza
-      fd
       fzf
-      ripgrep
-      starship
-      zoxide
       unzip
-      gcc
-      clang
-      go
       btop
     ];
   };

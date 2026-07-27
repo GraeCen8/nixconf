@@ -7,7 +7,7 @@
 
     fuzzelConfig = pkgs.writeText "fuzzel.ini" ''
       [main]
-      font = JetBrainsMono Nerd Font:size=12
+      font = ${themes.font.family}:size=${toString themes.font.size}
       prompt = "run: "
       terminal = alacritty
 

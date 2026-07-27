@@ -5,8 +5,6 @@
 }: {
   flake.nixosModules.misc = {
     pkgs,
-    lib,
-    config,
     ...
   }: {
     programs.nix-ld = {
@@ -14,31 +12,10 @@
       libraries = with pkgs; [
         stdenv.cc.cc.lib
         zlib
-        fuse3
-        alsa-lib
-        at-spi2-atk
-        at-spi2-core
-        cups
-        libdrm
+        openssl
         libGL
         libxkbcommon
-        openssl
-        pango
-        pipewire
         wayland
-        libx11
-        libxcomposite
-        libxdamage
-        libxext
-        libxfixes
-        libxi
-        libxrender
-        libxtst
-        libxcb
-        libxcb-image
-        libxcb-keysyms
-        libxcb-render-util
-        libgcc.lib
       ];
     };
 

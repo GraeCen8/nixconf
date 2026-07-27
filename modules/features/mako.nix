@@ -6,7 +6,7 @@
     c = theme.colors;
 
     makoConfig = pkgs.writeText "mako-config" ''
-      font=JetBrainsMono Nerd Font 10
+      font=${themes.font.family} ${toString themes.font.size}
       background-color=${c.bg}e6
       text-color=${c.fg}
       border-color=${c.border-active}
@@ -27,6 +27,6 @@
     '';
   in {
     environment.systemPackages = with pkgs; [ mako libnotify ];
-    environment.etc."mako/config".source = makoConfig;
+    environment.etc."xdg/mako/config".source = makoConfig;
   };
 }

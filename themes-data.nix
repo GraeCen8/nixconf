@@ -1,4 +1,7 @@
 {
+  font.family = "JetBrainsMono Nerd Font";
+  font.size = 12;
+
   nord = {
     name = "Nord";
     helix-theme = "nord";
