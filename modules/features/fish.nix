@@ -57,15 +57,17 @@
         gcam = "git commit -a -m";
         gcad = "git commit -a --amend";
         lg = "lazygit";
-
-        # nix
-        nrs = "sudo nixos-rebuild switch --flake";
       };
 
       interactiveShellInit = ''
         set -g fish_history_max 32768
 
         # Functions from dotfiles
+
+        function nrs
+          set hostname (string replace -r "^:" "#" -- $argv[1])
+          bash -c "sudo nixos-rebuild switch --flake /home/grae/nixos$hostname |& nom"
+        end
 
         function v
           set -l editor nvim

@@ -69,6 +69,7 @@
       direnv
       git-lfs
       nix-output-monitor
+      fastfetch
     ];
   };
 }
