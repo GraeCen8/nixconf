@@ -1,6 +1,14 @@
-{ self, inputs, ... }: {
-  flake = {
-    nixosModules.homeManager = { config, pkgs, lib, ... }: {
+{ self, inputs, lib, ... }: {
+  options.flake.homeManagerModules = lib.mkOption {
+    type = lib.types.lazyAttrsOf lib.types.deferredModule;
+    default = { };
+  };
+
+  config.flake = {
+    nixosModules.homeManager = { config, pkgs, lib, ... }:
+    let
+      systemTheme = config.system.theme.name;
+    in {
       imports = [
         inputs.home-manager.nixosModules.home-manager
       ];
@@ -8,6 +16,8 @@
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
+
+        extraSpecialArgs = { inherit systemTheme; };
 
         users.${config.user.name} = { ... }: {
           home = {
@@ -37,20 +47,11 @@
 
           imports = [
             self.homeManagerModules.nvim
+            self.homeManagerModules.helix
             self.homeManagerModules.noctalia
           ];
         };
       };
-    };
-
-    homeManagerModules.nvim = { config, pkgs, lib, ... }: {
-    home.packages = with pkgs; [ neovim ];
-    home.sessionVariables.EDITOR = "nvim";
-
-    home.activation.createNvimSymlink = lib.hm.dag.entryAfter ["writeBoundary"] ''
-      rm -rf ${config.home.homeDirectory}/.config/nvim
-      ln -sfn ${./nvim/config} ${config.home.homeDirectory}/.config/nvim
-    '';
     };
 
     homeManagerModules.noctalia = { config, pkgs, lib, ... }: {

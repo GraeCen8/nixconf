@@ -5,6 +5,20 @@
 }: {
   flake.nixosModules.dev-tools = { pkgs, ... }: {
     environment.systemPackages = with pkgs; [
+
+      # Languages
+      odin
+      
+      cargo
+      rustc
+      clippy
+      
+      go
+      bun
+      python3
+      zig
+      clang
+
       # LSP servers
       nixd
       nil
@@ -41,6 +55,7 @@
 
       # Build / treesitter deps
       gcc
+      gnumake
       nodejs
 
       # Dev tools
@@ -50,6 +65,8 @@
       lazygit
       tree-sitter
       tmux
+      curl
+      fzf
     ];
   };
 }
