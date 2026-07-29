@@ -63,5 +63,21 @@
       pkgs.swaylock-effects
       lockScript
     ];
+
+    systemd.services.lock-on-suspend = {
+      enable = true;
+      description = "Lock screen on suspend";
+      before = ["sleep.target"];
+      wantedBy = ["sleep.target"];
+      environment = {
+        WAYLAND_DISPLAY = "wayland-1";
+        DISPLAY = ":0";
+      };
+      serviceConfig = {
+        Type = "oneshot";
+        User = config.user.name;
+      };
+      script = "${lockScript}/bin/lock-screen";
+    };
   };
 }

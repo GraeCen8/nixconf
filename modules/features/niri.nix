@@ -122,6 +122,7 @@
     };
 
     commonStartup = [
+      ["xwayland-satellite" ":0"]
       ["wallpaper-init"]
       ["${lib.getExe pkgs.mako}"]
       ["${lib.getExe pkgs.clipman}" "init" "-t" "mako"]

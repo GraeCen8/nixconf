@@ -29,6 +29,8 @@
       self.nixosModules.misc
     ];
 
+    programs.dconf.enable = true;
+
     services.xserver.enable = true;
 
     services.xserver.xkb = {
@@ -48,6 +50,8 @@
     };
 
     services.libinput.enable = true;
+
+    virtualisation.docker.enable = true;
 
     fonts.packages = with pkgs; [
       nerd-fonts.jetbrains-mono

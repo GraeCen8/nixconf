@@ -18,8 +18,6 @@
       };
     };
 
-    config = {
-      environment.variables.SYSTEM_THEME = config.system.theme.name;
-    };
+    config = {};
   };
 }

@@ -18,10 +18,10 @@
       python3
       zig
       clang
+      sqlite
 
       # LSP servers
       nixd
-      nil
       typescript-language-server
       tailwindcss-language-server
       vscode-langservers-extracted
@@ -44,7 +44,6 @@
       cmake-language-server
       ols
       zls
-      zig
 
       # Formatters
       alejandra
@@ -67,6 +66,9 @@
       tmux
       curl
       fzf
+      direnv
+      git-lfs
+      nix-output-monitor
     ];
   };
 }

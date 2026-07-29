@@ -26,6 +26,8 @@
           max-jobs = "auto";
           cores = 0;
           auto-optimise-store = true;
+          extra-substituters = ["https://nix-community.cachix.org"];
+          extra-trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="];
         };
 
         nix.gc = {
@@ -40,9 +42,15 @@
         };
         boot.loader.efi.canTouchEfiVariables = true;
 
+        boot.tmp.useTmpfs = true;
+
+        services.fstrim.enable = true;
+
+        services.auto-cpufreq.enable = true;
+
         zramSwap = {
           enable = true;
-          memoryPercent = 50;
+          memoryPercent = 30;
         };
 
         networking.networkmanager.enable = true;
