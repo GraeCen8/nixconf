@@ -36,22 +36,7 @@
           options = "--delete-older-than 7d";
         };
 
-        boot.loader.systemd-boot = {
-          enable = true;
-          consoleMode = "max";
-        };
-        boot.loader.efi.canTouchEfiVariables = true;
-
-        boot.tmp.useTmpfs = true;
-
         services.fstrim.enable = true;
-
-        services.auto-cpufreq.enable = true;
-
-        zramSwap = {
-          enable = true;
-          memoryPercent = 30;
-        };
 
         networking.networkmanager.enable = true;
         time.timeZone = "Europe/London";

@@ -25,6 +25,7 @@
       self.nixosModules.noctalia
       self.nixosModules.lock
       self.nixosModules.homeManager
+      self.nixosModules.web
       self.nixosModules.power
       self.nixosModules.misc
     ];

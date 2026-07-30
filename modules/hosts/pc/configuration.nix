@@ -3,13 +3,13 @@
   inputs,
   ...
 }: {
-  flake.nixosModules.laptopConfig = {
+  flake.nixosModules.pcConfig = {
     config,
     pkgs,
     ...
   }: {
     imports = [
-      self.nixosModules.laptopHardware
+      self.nixosModules.pcHardware
       self.nixosModules.desktop
       self.nixosModules.settings
     ];
@@ -20,8 +20,10 @@
     };
     boot.loader.efi.canTouchEfiVariables = true;
 
+    # Disable if low on RAM
     boot.tmp.useTmpfs = true;
 
+    # Disable if not on a laptop or if CPU is AMD
     services.auto-cpufreq.enable = true;
 
     zramSwap = {
