@@ -38,6 +38,15 @@
             zathura
           ];
 
+          programs.git = {
+            enable = true;
+            userName = "grae ceney";
+            userEmail = "gceney7@gmail.com";
+            settings = {
+              credential.helper = "!/etc/profiles/per-user/grae/bin/gh auth git-credential";
+            };
+          };
+
           services.udiskie = {
             enable = true;
             automount = true;
