@@ -32,14 +32,8 @@
 
     programs.dconf.enable = true;
 
-    services.xserver.enable = true;
-
-    services.xserver.xkb = {
-      layout = "us";
-      variant = "";
-    };
-
     services.printing.enable = true;
+    services.gvfs.enable = true;
 
     services.pulseaudio.enable = false;
     security.rtkit.enable = true;

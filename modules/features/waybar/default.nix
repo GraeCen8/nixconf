@@ -35,8 +35,18 @@
       }
 
       window#waybar {
-        background-color: @dark-9;
+        background-color: transparent;
         color: ${c.fg};
+      }
+
+      .modules-left,
+      .modules-center,
+      .modules-right {
+        background: @dark-9;
+        border: 1px solid ${c.border};
+        border-radius: 12px;
+        margin: 6px 5px;
+        padding: 2px 4px;
       }
 
       #workspaces button {
@@ -51,6 +61,7 @@
         background: @highlight;
         color: ${c.bg};
         font-weight: 700;
+        border-radius: 12px;
       }
 
       #submap,
@@ -103,7 +114,7 @@
 
       #media {
         color: ${c.success};
-        margin: 3px 0px 3px 40px;
+        margin: 3px 0px 3px 8px;
       }
 
       #custom-media-animation {
@@ -130,7 +141,7 @@
       }
     '';
   in {
-    environment.systemPackages = with pkgs; [ waybar pavucontrol zscroll wifitui ];
+    environment.systemPackages = with pkgs; [ waybar pavucontrol zscroll wifitui bluetui ];
     environment.etc."xdg/waybar/config.jsonc".source = waybarConfig;
     environment.etc."xdg/waybar/style.css".source = waybarStyle;
   };

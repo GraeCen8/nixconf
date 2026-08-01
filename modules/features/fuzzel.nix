@@ -10,6 +10,17 @@
       font = ${themes.font.family}:size=${toString themes.font.size}
       prompt = "run: "
       terminal = alacritty
+      lines = 12
+      width = 28
+      horizontal-pad = 12
+      vertical-pad = 12
+      dpi-aware = yes
+      icons-enabled = yes
+      icon-theme = Papirus-Dark
+
+      [border]
+      width = 2
+      radius = 10
 
       [colors]
       background = ${lib.removePrefix "#" c.bg}dd

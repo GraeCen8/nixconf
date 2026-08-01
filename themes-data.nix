@@ -5,6 +5,11 @@
   nord = {
     name = "Nord";
     helix-theme = "nord";
+    wallpaper = "lighthouse.jpg";
+    gtk = {
+      flavor = "frappe";
+      accent = "Blue";
+    };
     colors = {
       bg = "#2e3440";
       bg-alt = "#3b4252";
@@ -36,7 +41,7 @@
       bright-cyan = "#8fbcbb";
       bright-white = "#eceff4";
     };
-    alacritty.opacity = 0.9;
+    alacritty.opacity = 0.85;
     mako.border-radius = 6;
     niri.border-width = 1;
   };
@@ -44,6 +49,11 @@
   catppuccin-mocha = {
     name = "Catppuccin Mocha";
     helix-theme = "catppuccin_mocha";
+    wallpaper = "night.png";
+    gtk = {
+      flavor = "mocha";
+      accent = "Mauve";
+    };
     colors = {
       bg = "#1e1e2e";
       bg-alt = "#313244";
@@ -75,7 +85,7 @@
       bright-cyan = "#94e2d5";
       bright-white = "#a6adc8";
     };
-    alacritty.opacity = 0.9;
+    alacritty.opacity = 0.85;
     mako.border-radius = 12;
     niri.border-width = 1;
   };
@@ -83,6 +93,11 @@
   tokyo-night = {
     name = "Tokyo Night";
     helix-theme = "tokyonight";
+    wallpaper = "nixos.png";
+    gtk = {
+      flavor = "macchiato";
+      accent = "Blue";
+    };
     colors = {
       bg = "#1a1b26";
       bg-alt = "#24283b";
@@ -114,14 +129,65 @@
       bright-cyan = "#7dcfff";
       bright-white = "#c0caf5";
     };
-    alacritty.opacity = 0.9;
+    alacritty.opacity = 0.85;
     mako.border-radius = 8;
+    niri.border-width = 1;
+  };
+
+  minimalist = {
+    name = "Minimalist";
+    helix-theme = "base16_transparent";
+    wallpaper = "astronaut.jpg";
+    gtk = {
+      flavor = "mocha";
+      accent = "Blue";
+      tweaks = [ "black" ];
+      cursor = "Dark";
+    };
+    colors = {
+      bg = "#141414";
+      bg-alt = "#1e1e1e";
+      bg-light = "#2a2a2a";
+      bg-lighter = "#3a3a3a";
+      fg = "#d8d8d8";
+      fg-dim = "#8e8e8e";
+      border = "#3a3a3a";
+      border-active = "#e0e0e0";
+      accent = "#c8c8c8";
+      error = "#ededed";
+      warning = "#cbcbcb";
+      success = "#a0a0a0";
+      info = "#6e6e6e";
+      black = "#1e1e1e";
+      red = "#b5b5b5";
+      green = "#9c9c9c";
+      yellow = "#c6c6c6";
+      blue = "#a8a8a8";
+      magenta = "#cecece";
+      cyan = "#858585";
+      white = "#e2e2e2";
+      bright-black = "#3a3a3a";
+      bright-red = "#dcdcdc";
+      bright-green = "#bcbcbc";
+      bright-yellow = "#ededed";
+      bright-blue = "#c4c4c4";
+      bright-magenta = "#f0f0f0";
+      bright-cyan = "#9e9e9e";
+      bright-white = "#ffffff";
+    };
+    alacritty.opacity = 0.9;
+    mako.border-radius = 4;
     niri.border-width = 1;
   };
 
   rose-pine = {
     name = "Rose Pine";
     helix-theme = "rose_pine";
+    wallpaper = "pine-moon.jpg";
+    gtk = {
+      flavor = "mocha";
+      accent = "Mauve";
+    };
     colors = {
       bg = "#191724";
       bg-alt = "#1f1d2e";
@@ -153,7 +219,7 @@
       bright-cyan = "#ebbcba";
       bright-white = "#e0def4";
     };
-    alacritty.opacity = 0.9;
+    alacritty.opacity = 0.85;
     mako.border-radius = 10;
     niri.border-width = 1;
   };

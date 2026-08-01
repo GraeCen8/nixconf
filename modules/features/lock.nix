@@ -59,6 +59,8 @@
       exec swaylock --config ${swaylockConf}
     '';
   in {
+    security.pam.services.swaylock = {};
+
     environment.systemPackages = [
       pkgs.swaylock-effects
       lockScript

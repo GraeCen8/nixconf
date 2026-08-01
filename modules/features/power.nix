@@ -23,7 +23,7 @@
       fi
     '';
   in {
-    services.auto-cpufreq.enable = true;
+    services.thermald.enable = true;
 
     environment.systemPackages = [
       pkgs.power-profiles-daemon

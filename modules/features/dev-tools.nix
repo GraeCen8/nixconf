@@ -4,6 +4,11 @@
   ...
 }: {
   flake.nixosModules.dev-tools = { pkgs, ... }: {
+    environment.variables = {
+      MANPAGER = "nvim -c 'Man!' -";
+      MANWIDTH = "100";
+    };
+
     environment.systemPackages = with pkgs; [
 
       # Languages
@@ -70,6 +75,7 @@
       git-lfs
       nix-output-monitor
       fastfetch
+      man-pages
     ];
   };
 }

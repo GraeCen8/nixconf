@@ -25,7 +25,7 @@ features/
   misc.nix                        - nixosModules.misc (nix-ld, documentation)
   dev-tools.nix                   - nixosModules.dev-tools (languages, LSPs, formatters)
   gaming.nix                      - nixosModules.gaming (steam, gamescope, gamemode)
-  power.nix                       - nixosModules.power (auto-cpufreq, power-menu)
+  power.nix                       - nixosModules.power (power-profiles-daemon, thermald, power-menu)
   lock.nix                        - nixosModules.lock (swaylock, lock-on-suspend)
   hm.nix                          - nixosModules.homeManager + homeManagerModules (nvim, helix, noctalia)
   alacritty.nix                   - nixosModules.alacritty
@@ -62,11 +62,11 @@ features/
 
 ## Notable Config Features
 
-- **Power**: auto-cpufreq for dynamic CPU scaling, power-menu with fuzzel UI
+- **Power**: power-profiles-daemon + thermald for dynamic CPU scaling, power-menu with fuzzel UI
 - **Lock**: swaylock with blur+screenshot effects, auto-locks on suspend
 - **Bin cache**: nix-community cachix added as substituter
 - **Docker**: enabled via virtualisation.docker
-- **Gaming**: Steam + gamescope session + gamemode + mangohud
+- **Gaming**: Steam + gamescope session + gamemode
 - **Xwayland**: xwayland-satellite for better X11 app compatibility
 - **Dev**: LSPs for most languages, direnv, nix-output-monitor
 
@@ -86,5 +86,4 @@ sudo nixos-rebuild switch --flake .#laptop
 - If `opencode` is not in nixpkgs, remove it from `users.users.grae.packages` in `configuration.nix`
 - Make sure `stateVersion` matches the nixpkgs channel (currently "26.05")
 - The `wrapper-modules` flake input may need updating: `nix flake update`
-- `auto-cpufreq` may need kernel params for full support (check `services.auto-cpufreq.settings`)
 - If lock-on-suspend doesn't trigger, verify `WAYLAND_DISPLAY` matches your session

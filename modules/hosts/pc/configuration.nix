@@ -23,16 +23,16 @@
     services.pipewire.wireplumber.extraConfig."51-ktmicro".monitor.alsa.rules = [
       {
         matches = [
-          { "node.name" = "~alsa_output.usb-KTMicro_KT_USB_Audio_*"; }
-          { "node.name" = "~alsa_input.usb-KTMicro_KT_USB_Audio_*"; }
+          {"node.name" = "~alsa_output.usb-KTMicro_KT_USB_Audio_*";}
+          {"node.name" = "~alsa_input.usb-KTMicro_KT_USB_Audio_*";}
         ];
         actions = {
           "update-props" = {
-            "api.alsa.format" = [ "S16LE" ];
-            "api.alsa.rate" = [ 48000 ];
+            "api.alsa.format" = ["S16LE"];
+            "api.alsa.rate" = [48000];
             "audio.format" = "S16LE";
             "audio.rate" = 48000;
-            "priority.session" = [ 5000 ];
+            "priority.session" = [5000];
           };
         };
       }
@@ -47,33 +47,36 @@
     boot.loader.systemd-boot = {
       enable = true;
       consoleMode = "max";
+      configurationLimit = 10;
     };
     boot.loader.efi.canTouchEfiVariables = true;
 
     # Disable if low on RAM
     boot.tmp.useTmpfs = true;
 
-    # Disable if not on a laptop or if CPU is AMD
-    services.auto-cpufreq.enable = true;
-
     zramSwap = {
       enable = true;
       memoryPercent = 30;
     };
+
+    
+
+    networking.hostName = "nixos-pc";
 
     users.groups.${config.user.name} = {};
     users.users.${config.user.name} = {
       isNormalUser = true;
       group = "grae";
       description = "grae ceney";
-      extraGroups = ["wheel" "networkmanager"];
+      extraGroups = ["wheel" "networkmanager" "bluetooth"];
     };
     services.upower.enable = true;
     programs.niri.bar = "waybar";
 
     environment.sessionVariables.XCURSOR_SIZE = "20";
 
-    system.theme.name = "catppuccin-mocha";
-    system.stateVersion = "26.05";
+    system.theme.name = "minimalist"; # "catppuccin-mocha" "nord" "minimalist" "tokyo-night" "rose-pine"
+      
+    system.stateVersion = "26.05"; # dont change
   };
 }

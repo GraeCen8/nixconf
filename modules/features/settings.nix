@@ -30,6 +30,10 @@
           extra-trusted-public-keys = ["nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="];
         };
 
+        nix.optimise.automatic = true;
+
+        nix.registry.nixos-config.flake = self;
+
         nix.gc = {
           automatic = true;
           dates = "weekly";
@@ -60,6 +64,12 @@
         environment.systemPackages = with pkgs; [
           wget
         ];
+
+        hardware.bluetooth = {
+          enable = true;
+          powerOnBoot = true;
+        };
+
       };
     };
   };

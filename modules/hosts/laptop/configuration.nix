@@ -14,15 +14,16 @@
       self.nixosModules.settings
     ];
 
+    networking.hostName = "nixos-laptop";
+
     boot.loader.systemd-boot = {
       enable = true;
       consoleMode = "max";
+      configurationLimit = 10;
     };
     boot.loader.efi.canTouchEfiVariables = true;
 
     boot.tmp.useTmpfs = true;
-
-    services.auto-cpufreq.enable = true;
 
     zramSwap = {
       enable = true;
@@ -34,7 +35,7 @@
       isNormalUser = true;
       group = "grae";
       description = "grae ceney";
-      extraGroups = ["wheel" "networkmanager"];
+      extraGroups = ["wheel" "networkmanager" "bluetooth"];
     };
     services.upower.enable = true;
     programs.niri.bar = "waybar";
