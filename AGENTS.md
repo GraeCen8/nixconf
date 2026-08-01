@@ -46,7 +46,7 @@ features/
 
 ## Key Details
 
-- **Hostname**: laptop
+- **Hostname**: laptop or pc ask which
 - **Username**: grae
 - **Shell**: fish (with starship prompt)
 - **Display Manager**: ly
@@ -73,12 +73,13 @@ features/
 ## Build Command
 
 ```bash
-sudo nixos-rebuild switch --flake /home/grae/nixos#laptop
+sudo nixos-rebuild switch --flake /home/grae/nixos#<device which may be laptop or pc ask user>
 ```
 
 Or from within the directory:
+
 ```bash
-sudo nixos-rebuild switch --flake .#laptop
+sudo nixos-rebuild switch --flake .#<device same as above>
 ```
 
 ## Common Fixes
