@@ -12,35 +12,18 @@
       self.nixosModules.laptopHardware
       self.nixosModules.desktop
       self.nixosModules.settings
+      self.nixosModules.gaming
     ];
 
-    networking.hostName = "nixos-laptop";
-
-    boot.loader.systemd-boot = {
-      enable = true;
-      consoleMode = "max";
-      configurationLimit = 10;
-    };
-    boot.loader.efi.canTouchEfiVariables = true;
+    networking.hostName = "nixos-example";
+    config.user.name = "grae";
+    config.user.fullName = "grae ceney";
 
     boot.tmp.useTmpfs = true;
 
-    zramSwap = {
-      enable = true;
-      memoryPercent = 30;
-    };
-
-    users.groups.${config.user.name} = {};
-    users.users.${config.user.name} = {
-      isNormalUser = true;
-      group = "grae";
-      description = "grae ceney";
-      extraGroups = ["wheel" "networkmanager" "bluetooth"];
-    };
-    services.upower.enable = true;
     programs.niri.bar = "waybar";
+    system.theme.name = "tokyo-night";
 
-    system.theme.name = "catppuccin-mocha";
     system.stateVersion = "26.05";
   };
 }

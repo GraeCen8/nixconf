@@ -16,7 +16,6 @@
       daemonize
       show-failed-attempts
       indicator-caps-lock
-      screenshots
 
       effect-blur 7x5
       effect-vignette 0.5
@@ -56,7 +55,30 @@
     '';
 
     lockScript = pkgs.writeShellScriptBin "lock-screen" ''
-      exec swaylock --config ${swaylockConf}
+      tmp=$(mktemp -d)
+      images=()
+
+      outputs=$(${pkgs.gnused}/bin/sed -n 's/^Output ".*" (\(.*\))$/\1/p' < <(${pkgs.niri}/bin/niri msg outputs 2>/dev/null) || true)
+      if [ -n "$outputs" ]; then
+        while IFS= read -r o; do
+          [ -z "$o" ] && continue
+          if ${pkgs.grim}/bin/grim -o "$o" "$tmp/$o.png" 2>/dev/null; then
+            images+=(--image "$o:$tmp/$o.png")
+          fi
+        done <<< "$outputs"
+      fi
+
+      if [ "''${#images[@]}" -eq 0 ] && ${pkgs.grim}/bin/grim "$tmp/screen.png" 2>/dev/null; then
+        images+=(--image "$tmp/screen.png")
+      fi
+
+      if [ "''${#images[@]}" -gt 0 ]; then
+        ${pkgs.swaylock-effects}/bin/swaylock --config ${swaylockConf} "''${images[@]}"
+        ( while ${pkgs.procps}/bin/pgrep -x swaylock >/dev/null 2>&1; do sleep 1; done; rm -rf "$tmp" ) &
+      else
+        rm -rf "$tmp"
+        exec ${pkgs.swaylock-effects}/bin/swaylock --config ${swaylockConf}
+      fi
     '';
   in {
     security.pam.services.swaylock = {};
@@ -74,6 +96,7 @@
       environment = {
         WAYLAND_DISPLAY = "wayland-1";
         DISPLAY = ":0";
+        XDG_RUNTIME_DIR = "/run/user/1000";
       };
       serviceConfig = {
         Type = "oneshot";

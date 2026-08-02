@@ -12,10 +12,23 @@
     baseSettings = {
       "prefer-no-csd" = true;
 
-      "window-rule" = [{
-        "geometry-corner-radius" = 8;
-        "clip-to-geometry" = true;
-      }];
+      outputs = lib.mkIf (config.hardware.gpu.nvidia && config.hardware.gpu.nvidiaOutput != null) {
+        ${config.hardware.gpu.nvidiaOutput} = {
+          "variable-refresh-rate" = _: {};
+        };
+      };
+
+      window-rules = [
+        {
+          "geometry-corner-radius" = 8;
+          "clip-to-geometry" = true;
+        }
+        {
+          matches = [ { "app-id" = "float"; } ];
+          "open-floating" = true;
+          "geometry-corner-radius" = 8;
+        }
+      ];
 
       input = {
         keyboard.xkb.layout = "us";
@@ -50,6 +63,16 @@
         "Mod+Shift+Q".quit = _: {};
 
         "Mod+Escape".spawn-sh = "lock-screen";
+
+        "Mod+Ctrl+Return".spawn-sh = "${lib.getExe pkgs.alacritty} --class float";
+
+        "Mod+A".spawn-sh = "${lib.getExe pkgs.grim} -g \"$(${lib.getExe pkgs.slurp})\" -t png /tmp/satty.png && ${lib.getExe pkgs.satty} --filename /tmp/satty.png --initial-tool arrow --copy-command \"${lib.getExe' pkgs.wl-clipboard "wl-copy"} -t image/png\" --output-filename /tmp/satty.png";
+
+        "Mod+Shift+R".spawn-sh = "if ${pkgs.procps}/bin/pgrep -x wf-recorder >/dev/null; then ${pkgs.procps}/bin/pkill -x wf-recorder; else ${pkgs.coreutils}/bin/mkdir -p \"$HOME/Videos\" && ${pkgs.wf-recorder}/bin/wf-recorder -g \"$(${lib.getExe pkgs.slurp})\" -f \"$HOME/Videos/recording-$(date +%Y-%m-%d_%H-%M-%S).mp4\" & fi";
+
+        "Mod+Shift+P".spawn-sh = "hex=$(${pkgs.hyprpicker}/bin/hyprpicker -f hex -n -a); [ -n \"$hex\" ] && ${pkgs.libnotify}/bin/notify-send \"Picked color: $hex\"";
+
+        "Mod+Shift+W".spawn-sh = lib.getExe pkgs.wlogout;
 
 
         "Mod+F".maximize-column = _: {};
@@ -181,6 +204,18 @@
       default = "noctalia";
     };
 
+    options.hardware.gpu.nvidia = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Enable NVIDIA GPU support and NVIDIA-specific optimizations";
+    };
+
+    options.hardware.gpu.nvidiaOutput = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Name of the output connected to the NVIDIA GPU (enables VRR there)";
+    };
+
     config = {
       programs.niri = {
         enable = true;
@@ -200,6 +235,9 @@
         playerctl
         xwayland-satellite
         clipman
+        satty
+        wf-recorder
+        hyprpicker
       ];
     };
   };

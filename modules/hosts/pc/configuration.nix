@@ -12,10 +12,14 @@
       self.nixosModules.pcHardware
       self.nixosModules.desktop
       self.nixosModules.settings
+      self.nixosModules.gaming
+      self.nixosModules.nvidia
     ];
 
+    hardware.gpu.nvidia = true;
+    hardware.gpu.nvidiaOutput = "DP-3";
+
     hardware.graphics.enable = true;
-    services.xserver.videoDrivers = ["nvidia"];
 
     # KTMicro KT USB Audio only supports S16_LE; PipeWire fails with
     # "set_hw_params: No space left on device" when probing other formats.
@@ -38,43 +42,18 @@
       }
     ];
 
-    hardware.nvidia = {
-      modesetting.enable = true;
-      open = true;
-      nvidiaSettings = true;
-    };
-
-    boot.loader.systemd-boot = {
-      enable = true;
-      consoleMode = "max";
-      configurationLimit = 10;
-    };
-    boot.loader.efi.canTouchEfiVariables = true;
+    
 
     # Disable if low on RAM
     boot.tmp.useTmpfs = true;
 
-    zramSwap = {
-      enable = true;
-      memoryPercent = 30;
-    };
-
+    networking.hostName = "nixos-pc";
+    config.user.name = "grae";
+    config.user.fullName = "grae ceney";
     
 
-    networking.hostName = "nixos-pc";
-
-    users.groups.${config.user.name} = {};
-    users.users.${config.user.name} = {
-      isNormalUser = true;
-      group = "grae";
-      description = "grae ceney";
-      extraGroups = ["wheel" "networkmanager" "bluetooth"];
-    };
-    services.upower.enable = true;
     programs.niri.bar = "waybar";
-
     environment.sessionVariables.XCURSOR_SIZE = "20";
-
     system.theme.name = "minimalist"; # "catppuccin-mocha" "nord" "minimalist" "tokyo-night" "rose-pine"
       
     system.stateVersion = "26.05"; # dont change

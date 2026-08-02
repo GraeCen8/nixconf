@@ -18,6 +18,12 @@
         description = "Primary username";
       };
 
+      options.user.fullName = lib.mkOption {
+          type = lib.types.str;
+          default = "grae";
+          description = "full name";
+      };
+
       config = {
         user.name = "grae";
 
@@ -70,6 +76,27 @@
           powerOnBoot = true;
         };
 
+        users.groups.${config.user.name} = {};
+        users.users.${config.user.name} = {
+          isNormalUser = true;
+          group = "${config.user.name}";
+          description = "${config.user.fullName}";
+          extraGroups = ["wheel" "networkmanager" "bluetooth" "docker"];
+        };
+
+        services.upower.enable = true;
+
+        zramSwap = {
+          enable = true;
+          memoryPercent = 30;
+        };
+
+        boot.loader.systemd-boot = {
+              enable = true;
+              consoleMode = "max";
+              configurationLimit = 10;
+        };
+        boot.loader.efi.canTouchEfiVariables = true;
       };
     };
   };
