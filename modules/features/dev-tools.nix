@@ -76,6 +76,10 @@
       nix-output-monitor
       fastfetch
       man-pages
+      ollama
+
+      # Keyboards
+      qmk
     ];
   };
 }

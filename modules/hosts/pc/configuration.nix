@@ -48,13 +48,15 @@
     boot.tmp.useTmpfs = true;
 
     networking.hostName = "nixos-pc";
-    config.user.name = "grae";
-    config.user.fullName = "grae ceney";
+    user.name = "grae";
+    user.fullName = "grae ceney";
     
 
     programs.niri.bar = "waybar";
     environment.sessionVariables.XCURSOR_SIZE = "20";
     system.theme.name = "minimalist"; # "catppuccin-mocha" "nord" "minimalist" "tokyo-night" "rose-pine"
+
+    services.flatpak.enable = true; 
       
     system.stateVersion = "26.05"; # dont change
   };

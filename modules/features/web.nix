@@ -30,6 +30,12 @@
         categories = ["Network"];
       };
   in {
-    environment.systemPackages = map mkWebApp sites;
+    environment.systemPackages = map mkWebApp sites ++ [
+        pkgs.spotify
+      ];
+
+    
+
+    
   };
 }

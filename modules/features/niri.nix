@@ -20,7 +20,7 @@
 
       window-rules = [
         {
-          "geometry-corner-radius" = 8;
+          "geometry-corner-radius" = 2;
           "clip-to-geometry" = true;
         }
         {
@@ -40,9 +40,9 @@
       };
 
       layout = {
-        gaps = 10;
+        gaps = 2;
         border = {
-          width = theme.niri.border-width;
+          width = 0.5;
           "active-color" = c.border-active;
           "inactive-color" = c.border;
         };

@@ -173,6 +173,98 @@
           end
         end
 
+        function qmk-swap
+          if test "$argv[1]" = --new
+            if not command -v qmk >/dev/null
+              echo "qmk is not installed yet. Add it to dev-tools.nix and rebuild first."
+              return 1
+            end
+            qmk c2json -kb silakka54 -km default > silakka54-keymap.json
+            and echo "Wrote silakka54-keymap.json from the stock keymap. Edit the 'layers' arrays, then run: qmk-swap silakka54-keymap.json"
+            or echo "Failed to generate the template. Is qmk_firmware set up? Run: qmk setup"
+            return
+          end
+
+          if test (count $argv) -ne 1
+            echo "Usage: qmk-swap <keymap.json>"
+            echo "       qmk-swap --new   (generate a starter silakka54 keymap.json)"
+            return 1
+          end
+
+          set -l file $argv[1]
+          if not test -f "$file"
+            echo "File not found: $file"
+            return 1
+          end
+
+          if not command -v qmk >/dev/null
+            echo "qmk is not installed yet. Add it to dev-tools.nix and run: sudo nixos-rebuild switch --flake /home/grae/nixos#<host>"
+            return 1
+          end
+
+          set -l qmk_home (qmk config user.qmk_home 2>/dev/null | string replace -r '^user\.qmk_home=' ''')
+          test -z "$qmk_home"; and set qmk_home "$HOME/qmk_firmware"
+          if not test -d "$qmk_home"
+            echo "qmk_firmware is not set up yet. Run: qmk setup"
+            echo "(This clones qmk_firmware to $qmk_home and checks the build toolchain.)"
+            return 1
+          end
+
+          echo "Compiling $file..."
+          if not qmk compile "$file"
+            echo "Compile failed. Fix the errors above (or run: qmk doctor -n)."
+            return 1
+          end
+
+          set -l uf2 (ls -t "$qmk_home"/.build/*.uf2 2>/dev/null | head -n 1)
+          if test -z "$uf2"
+            echo "No .uf2 firmware was produced in $qmk_home/.build — something went wrong."
+            return 1
+          end
+          echo "Built: $uf2"
+
+          for side in LEFT RIGHT
+            set -l mount ""
+            echo ""
+            echo "=== Flashing $side half ==="
+            while test -z "$mount"
+              echo "1. Unplug the keyboard from USB."
+              echo "2. On the $side half, HOLD the BOOT button on the RP2040 Zero."
+              echo "3. Plug the USB cable into that half while holding BOOT, then release."
+              echo "   It should show up as a 'RPI-RP2' USB drive."
+              read -p "echo 'Press Enter when the drive is visible (or type abort): '" confirm
+              if test "$confirm" = abort
+                echo "Aborted."
+                return 1
+              end
+              for i in (seq 1 15)
+                set -l m (lsblk -rno LABEL,MOUNTPOINT 2>/dev/null | string match -r '^RPI-RP2[ \t]+(.+)$')
+                if test -n "$m[2]" -a -d "$m[2]"
+                  set mount "$m[2]"
+                  break
+                end
+                sleep 1
+              end
+              if test -z "$mount"
+                echo "Could not find the RPI-RP2 drive. Try again (hold BOOT while plugging in)."
+              end
+            end
+            echo "Found: $mount"
+            echo "Copying firmware..."
+            cp "$uf2" "$mount/"
+            sync
+            for i in (seq 1 15)
+              test -d "$mount"; or break
+              sleep 1
+            end
+            echo "$side half flashed."
+          end
+
+          echo ""
+          echo "Done! Both halves should now run the new layout."
+          echo "If keys are swapped/missing, check handedness: the half plugged into USB is the left side by default."
+        end
+
         function iso2sd
           if test (count $argv) -lt 1
             echo "Usage: iso2sd <input_file> [output_device]"

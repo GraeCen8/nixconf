@@ -16,8 +16,8 @@
     ];
 
     networking.hostName = "nixos-example";
-    config.user.name = "grae";
-    config.user.fullName = "grae ceney";
+    user.name = "grae";
+    user.fullName = "grae ceney";
 
     boot.tmp.useTmpfs = true;
 

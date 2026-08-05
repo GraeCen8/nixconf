@@ -1,7 +1,7 @@
 { self, inputs, ... }: {
   flake.nixosModules.exampleConfig = { config, pkgs, ... }: {
     imports = [
-      self.nixosModules.exmapleHardware # hardware describing the system
+      self.nixosModules.exampleHardware # hardware describing the system
       self.nixosModules.desktop # the desktop
       self.nixosModules.settings # main settings the enabling bluetooth
       # self.nixosModules.gaming # enables gaming related things like steam
@@ -19,11 +19,11 @@
    
     # naming stuff
     networking.hostName = "nixos-example";
-    config.user.name = "grae";
-    config.user.fullName = "grae ceney";
+    user.name = "grae";
+    user.fullName = "grae ceney";
 
     programs.niri.bar = "waybar"; # what top bar to use. 
-    enviroment.sessionVariables.XCURSOR_SIZE = "20"; # cursor size
+    environment.sessionVariables.XCURSOR_SIZE = "20"; # cursor size
 
     # the theme to use for all apps. 
     # options: "catppuccin-mocha" "nord" "minimalist" "tokyo-night" "rose-pine"
