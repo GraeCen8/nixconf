@@ -27,14 +27,13 @@ features/
   gaming.nix                      - nixosModules.gaming (steam, gamescope, gamemode)
   power.nix                       - nixosModules.power (power-profiles-daemon, thermald, power-menu)
   lock.nix                        - nixosModules.lock (swaylock, lock-on-suspend)
-  hm.nix                          - nixosModules.homeManager + homeManagerModules (nvim, helix, noctalia)
+  hm.nix                          - nixosModules.homeManager + homeManagerModules (nvim, helix, mango)
   alacritty.nix                   - nixosModules.alacritty
   fish.nix                        - nixosModules.fish (shell aliases + functions)
   fuzzel.nix                      - nixosModules.fuzzel
   ly.nix                          - nixosModules.ly (display manager)
   mako.nix                        - nixosModules.mako (notification daemon)
-  niri.nix                        - nixosModules.niri + perSystem packages.myNiri (with xwayland-satellite)
-  noctalia.nix                    - nixosModules.noctalia + perSystem packages.myNoctalia
+  mango.nix                       - nixosModules.mango (mango WM, hardware.gpu options, ly default session)
   nvim/
     default.nix                   - nixosModules.nvim + homeManagerModules.nvim
     config/                       - LazyVim config files (init.lua, lua/, etc.)
@@ -53,7 +52,7 @@ features/
 - **Username**: grae
 - **Shell**: fish (with starship prompt)
 - **Display Manager**: ly
-- **Window Manager**: niri (Wayland compositor)
+- **Window Manager**: mango (Wayland compositor, dwl-based)
 - **Terminal**: alacritty
 - **Launcher**: fuzzel
 - **Bar**: waybar
@@ -70,7 +69,8 @@ features/
 - **Bin cache**: nix-community cachix added as substituter
 - **Docker**: enabled via virtualisation.docker
 - **Gaming**: Steam + gamescope session + gamemode
-- **Xwayland**: xwayland-satellite for better X11 app compatibility
+- **Xwayland**: built into mango
+- **Effects**: blur behind alacritty + fuzzel, scroller layout on all tags
 - **Dev**: LSPs for most languages, direnv, nix-output-monitor
 
 ## Build Command
@@ -89,5 +89,5 @@ sudo nixos-rebuild switch --flake .#<device same as above>
 
 - If `opencode` is not in nixpkgs, remove it from `users.users.grae.packages` in `configuration.nix`
 - Make sure `stateVersion` matches the nixpkgs channel (currently "26.05")
-- The `wrapper-modules` flake input may need updating: `nix flake update`
+- The `mango` flake input may need updating: `nix flake update`
 - If lock-on-suspend doesn't trigger, verify `WAYLAND_DISPLAY` matches your session

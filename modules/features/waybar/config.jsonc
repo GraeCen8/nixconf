@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "modules-left": [
-        "niri/workspaces",
+        "mango/workspaces",
         "group/media"
     ],
     "modules-center": [
@@ -15,6 +15,12 @@
         "cpu",
         "memory"
     ],
+    "mango/workspaces": {
+        "format": "{icon}",
+        "hide-empty": true,
+        "on-click": "activate",
+        "on-click-right": "toggle"
+    },
     "battery": {
         "interval": 60,
         "format": "{capacity}% {icon}",

@@ -1,12 +1,21 @@
-{ self, inputs, lib, ... }: {
+{
+  self,
+  inputs,
+  lib,
+  ...
+}: {
   options.flake.homeManagerModules = lib.mkOption {
     type = lib.types.lazyAttrsOf lib.types.deferredModule;
-    default = { };
+    default = {};
   };
 
   config.flake = {
-    nixosModules.homeManager = { config, pkgs, lib, ... }:
-    let
+    nixosModules.homeManager = {
+      config,
+      pkgs,
+      lib,
+      ...
+    }: let
       systemTheme = config.system.theme.name;
     in {
       imports = [
@@ -20,10 +29,15 @@
         extraSpecialArgs = {
           inherit systemTheme;
           nvimProfile = config.programs.nvim.profile;
+          mangoNvidia = config.hardware.gpu.nvidia;
+          mangoNvidiaOutput = config.hardware.gpu.nvidiaOutput;
         };
 
-        users.${config.user.name} = { pkgs, lib, ... }:
-        let
+        users.${config.user.name} = {
+          pkgs,
+          lib,
+          ...
+        }: let
           themes = import ../../themes-data.nix;
           theme = themes.${systemTheme}.gtk;
           accent = lib.toLower theme.accent;
@@ -31,7 +45,8 @@
           cursor = theme.cursor or theme.accent;
           cursorAccent = lib.toLower cursor;
           cursorName = "catppuccin-${theme.flavor}-${cursorAccent}-cursors";
-          gtkThemeName = "catppuccin-${theme.flavor}-${accent}-standard"
+          gtkThemeName =
+            "catppuccin-${theme.flavor}-${accent}-standard"
             + lib.optionalString (tweaks != []) "+${builtins.concatStringsSep "," tweaks}";
           colors = themes.${systemTheme}.colors;
           accentHex = colors.border-active;
@@ -75,7 +90,7 @@
               name = gtkThemeName;
               package = pkgs.catppuccin-gtk.override {
                 variant = theme.flavor;
-                accents = [ accent ];
+                accents = [accent];
                 inherit tweaks;
               };
             };
@@ -89,8 +104,7 @@
 
           # libadwaita apps (e.g. nautilus) ignore gtk-theme-name; the
           # color-scheme setting is what makes them follow dark mode.
-          dconf.settings."org/gnome/desktop/interface"."color-scheme" =
-            "prefer-dark";
+          dconf.settings."org/gnome/desktop/interface"."color-scheme" = "prefer-dark";
 
           dconf.settings."org/gnome/desktop/interface"."accent-color" =
             gnomeAccent.${systemTheme};
@@ -154,26 +168,8 @@
             self.homeManagerModules.nvim
             self.homeManagerModules.helix
             self.homeManagerModules.tmux
-            self.homeManagerModules.noctalia
+            self.homeManagerModules.mango
           ];
-        };
-      };
-    };
-
-    homeManagerModules.noctalia = { config, pkgs, lib, ... }: {
-      options.programs.noctalia = {
-        enable = lib.mkEnableOption "noctalia shell bar";
-
-        configFile = lib.mkOption {
-          type = lib.types.nullOr lib.types.str;
-          default = null;
-          description = "Path to a JSON config file for noctalia styling";
-        };
-      };
-
-      config = lib.mkIf config.programs.noctalia.enable {
-        xdg.configFile."noctalia/config.json" = lib.mkIf (config.programs.noctalia.configFile != null) {
-          source = config.lib.file.mkOutOfStoreSymlink config.programs.noctalia.configFile;
         };
       };
     };

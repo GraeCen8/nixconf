@@ -58,7 +58,7 @@
       tmp=$(mktemp -d)
       images=()
 
-      outputs=$(${pkgs.gnused}/bin/sed -n 's/^Output ".*" (\(.*\))$/\1/p' < <(${pkgs.niri}/bin/niri msg outputs 2>/dev/null) || true)
+      outputs=$(${pkgs.gnused}/bin/sed -n 's/^\([^ ]\+\) ".*"/\1/p' < <(${pkgs.wlr-randr}/bin/wlr-randr 2>/dev/null) || true)
       if [ -n "$outputs" ]; then
         while IFS= read -r o; do
           [ -z "$o" ] && continue
@@ -85,6 +85,7 @@
 
     environment.systemPackages = [
       pkgs.swaylock-effects
+      pkgs.wlr-randr
       lockScript
     ];
 

@@ -15,14 +15,13 @@
       self.nixosModules.helix
       self.nixosModules.tmux
       self.nixosModules.alacritty
-      self.nixosModules.niri
+      self.nixosModules.mango
       self.nixosModules.ly
       self.nixosModules.fuzzel
       self.nixosModules.waybar
       self.nixosModules.mako
       self.nixosModules.wallpaper
       self.nixosModules.fish
-      self.nixosModules.noctalia
       self.nixosModules.lock
       self.nixosModules.homeManager
       self.nixosModules.web

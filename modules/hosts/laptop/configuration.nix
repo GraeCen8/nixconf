@@ -21,7 +21,6 @@
 
     boot.tmp.useTmpfs = true;
 
-    programs.niri.bar = "waybar";
     system.theme.name = "tokyo-night";
     system.theme.uiScale = 1.0; # 1920px primary monitor / 1920 reference
     programs.nvim.profile = "minimal"; # "full" (LazyVim) or "minimal" (lazy.nvim)

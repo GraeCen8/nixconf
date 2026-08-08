@@ -5,6 +5,21 @@
     theme = themes.${config.system.theme.name};
     c = theme.colors;
 
+    waybarMango = pkgs.waybar.overrideAttrs (old: {
+      version = "0.15.0";
+      src = pkgs.fetchFromGitHub {
+        owner = "Alexays";
+        repo = "Waybar";
+        rev = "084d87401d0a91182c16aa7e5f674a7dde767185";
+        hash = "sha256-POvwObPOp6O14n6KYWNLp2Y3paunA5f8U1NCaodNFcc=";
+      };
+      mesonFlags = old.mesonFlags ++ [
+        "-Dcava=disabled"
+        "-Dmango=true"
+        "-Dwwan=disabled"
+      ];
+    });
+
     mediaScripts = pkgs.stdenv.mkDerivation {
       name = "waybar-media-scripts";
       src = ./media;
@@ -71,6 +86,10 @@
         color: ${c.bg};
         font-weight: 700;
         border-radius: 12px;
+      }
+
+      #workspaces button.hidden {
+        color: ${c.bg-lighter};
       }
 
       #submap,
@@ -165,28 +184,24 @@
       GEN_CONF="$OUT_DIR/waybar-config.jsonc"
       GEN_CSS="$OUT_DIR/waybar-style.css"
 
-      outputs="$("${pkgs.niri}/bin/niri" msg --json outputs 2>/dev/null || true)"
+      outputs="$(mmsg get all-monitors 2>/dev/null || true)"
       if [ -z "$outputs" ]; then
-        exec "${pkgs.waybar}/bin/waybar"
+        exec "${waybarMango}/bin/waybar"
       fi
 
-      primary="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r 'keys[0]' 2>/dev/null || true)"
-      primary_w="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r --arg o "$primary" '.[$o].logical.width' 2>/dev/null || true)"
+      primary="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r '.monitors[0].name' 2>/dev/null || true)"
+      primary_w="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r '.monitors[0].width / .monitors[0].scale' 2>/dev/null || true)"
 
       if [ -z "$primary_w" ] || [ "$primary_w" = "null" ]; then
-        exec "${pkgs.waybar}/bin/waybar"
+        exec "${waybarMango}/bin/waybar"
       fi
 
       ui_scale="$(awk -v w="$primary_w" -v r="$REFERENCE" 'BEGIN { printf "%.2f", w / r }')"
 
       if ! printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" --argjson frac "$FRACTION" --slurpfile base <(cat "$BASE_CONF") '
-          to_entries | map(
-            .key as $name |
-            ((.value.logical.width * (1 - $frac) / 2) | round) as $m |
-            $base[0] * { output: $name, margin: ("0 \($m) 0 \($m)") }
-          )
+          [ .monitors[] | . as $m | ((($m.width / $m.scale) * (1 - $frac) / 2) | round) as $mr | $base[0] * { output: $m.name, margin: ("0 \($mr) 0 \($mr)") } ]
         ' > "$GEN_CONF" 2>/dev/null; then
-        exec "${pkgs.waybar}/bin/waybar"
+        exec "${waybarMango}/bin/waybar"
       fi
 
       font_size="$(awk -v s="$ui_scale" 'BEGIN { printf "%.0f", 11 * s }')"
@@ -206,7 +221,7 @@
       tooltip { border-radius: ''${tooltip_r}px; }
       EOF
 
-      exec "${pkgs.waybar}/bin/waybar" -c "$GEN_CONF" -s "$GEN_CSS"
+      exec "${waybarMango}/bin/waybar" -c "$GEN_CONF" -s "$GEN_CSS"
     '';
   in {
     options.programs.waybar = {
@@ -237,7 +252,7 @@
     config = {
       programs.waybar.wrapper = myWaybar;
 
-      environment.systemPackages = with pkgs; [ waybar pavucontrol zscroll wifitui bluetui ];
+      environment.systemPackages = with pkgs; [ waybarMango pavucontrol zscroll wifitui bluetui myWaybar ];
       environment.etc."xdg/waybar/config.jsonc".source = waybarConfig;
       environment.etc."xdg/waybar/style.css".source = waybarStyle;
     };

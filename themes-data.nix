@@ -41,9 +41,8 @@
       bright-cyan = "#8fbcbb";
       bright-white = "#eceff4";
     };
-    alacritty.opacity = 0.85;
+    alacritty.opacity = 0.7;
     mako.border-radius = 6;
-    niri.border-width = 1;
   };
 
   catppuccin-mocha = {
@@ -85,9 +84,8 @@
       bright-cyan = "#94e2d5";
       bright-white = "#a6adc8";
     };
-    alacritty.opacity = 0.85;
+    alacritty.opacity = 0.7;
     mako.border-radius = 12;
-    niri.border-width = 1;
   };
 
   tokyo-night = {
@@ -129,9 +127,8 @@
       bright-cyan = "#7dcfff";
       bright-white = "#c0caf5";
     };
-    alacritty.opacity = 0.85;
+    alacritty.opacity = 0.7;
     mako.border-radius = 8;
-    niri.border-width = 1;
   };
 
   minimalist = {
@@ -175,9 +172,8 @@
       bright-cyan = "#9e9e9e";
       bright-white = "#ffffff";
     };
-    alacritty.opacity = 0.9;
+    alacritty.opacity = 0.7;
     mako.border-radius = 4;
-    niri.border-width = 1;
   };
 
   rose-pine = {
@@ -219,8 +215,7 @@
       bright-cyan = "#ebbcba";
       bright-white = "#e0def4";
     };
-    alacritty.opacity = 0.85;
+    alacritty.opacity = 0.7;
     mako.border-radius = 10;
-    niri.border-width = 1;
   };
 }

@@ -105,14 +105,14 @@
 
       "${pkgs.coreutils}/bin/mkdir" -p "$OUT_DIR"
 
-      outputs="$("${pkgs.niri}/bin/niri" msg --json outputs 2>/dev/null || true)"
+      outputs="$(mmsg get all-monitors 2>/dev/null || true)"
       if [ -z "$outputs" ]; then
         exec "${pkgs.fuzzel}/bin/fuzzel" "$@"
       fi
 
-      primary="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r 'keys[0]' 2>/dev/null || true)"
-      primary_w="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r --arg o "$primary" '.[$o].logical.width' 2>/dev/null || true)"
-      primary_h="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r --arg o "$primary" '.[$o].logical.height' 2>/dev/null || true)"
+      primary="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r '.monitors[0].name' 2>/dev/null || true)"
+      primary_w="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r '.monitors[0].width / .monitors[0].scale' 2>/dev/null || true)"
+      primary_h="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r '.monitors[0].height / .monitors[0].scale' 2>/dev/null || true)"
 
       if [ -z "$primary_w" ] || [ "$primary_w" = "null" ] || [ -z "$primary_h" ] || [ "$primary_h" = "null" ]; then
         exec "${pkgs.fuzzel}/bin/fuzzel" "$@"

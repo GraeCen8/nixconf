@@ -22,7 +22,6 @@
     user.name = "grae";
     user.fullName = "grae ceney";
 
-    programs.niri.bar = "waybar"; # what top bar to use. 
     environment.sessionVariables.XCURSOR_SIZE = "20"; # cursor size
 
     # the theme to use for all apps. 

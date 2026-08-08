@@ -28,7 +28,7 @@
       }
       {
           "label" : "logout",
-          "action" : "niri msg action quit",
+          "action" : "mmsg dispatch quit",
           "text" : "Logout",
           "keybind" : "e"
       }
