@@ -54,7 +54,9 @@
 
     programs.niri.bar = "waybar";
     environment.sessionVariables.XCURSOR_SIZE = "20";
-    system.theme.name = "minimalist"; # "catppuccin-mocha" "nord" "minimalist" "tokyo-night" "rose-pine"
+    system.theme.name = "tokyo-night";# "catppuccin-mocha" "nord" "minimalist" "tokyo-night" "rose-pine"
+    system.theme.uiScale = 1.0; # 1920px primary monitor / 1920 reference
+    programs.nvim.profile = "minimal"; # "full" (LazyVim) or "minimal" (lazy.nvim)
 
     services.flatpak.enable = true; 
       

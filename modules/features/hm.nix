@@ -17,7 +17,10 @@
         useGlobalPkgs = true;
         useUserPackages = true;
 
-        extraSpecialArgs = { inherit systemTheme; };
+        extraSpecialArgs = {
+          inherit systemTheme;
+          nvimProfile = config.programs.nvim.profile;
+        };
 
         users.${config.user.name} = { pkgs, lib, ... }:
         let
@@ -150,6 +153,7 @@
           imports = [
             self.homeManagerModules.nvim
             self.homeManagerModules.helix
+            self.homeManagerModules.tmux
             self.homeManagerModules.noctalia
           ];
         };

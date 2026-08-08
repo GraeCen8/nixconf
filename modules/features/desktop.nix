@@ -13,6 +13,7 @@
       self.nixosModules.dev-tools
       self.nixosModules.nvim
       self.nixosModules.helix
+      self.nixosModules.tmux
       self.nixosModules.alacritty
       self.nixosModules.niri
       self.nixosModules.ly

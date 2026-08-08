@@ -31,7 +31,7 @@
 
       * {
         font-family: ${themes.font.family} Propo;
-        font-size: 13px;
+        font-size: 11px;
       }
 
       window#waybar {
@@ -39,19 +39,28 @@
         color: ${c.fg};
       }
 
+      window#waybar > box {
+        background: @dark-9;
+        border: 1px solid ${c.border};
+        border-top: none;
+        border-radius: 0 0 12px 12px;
+        padding: 5px 12px;
+        margin: 0 0 4px 0;
+      }
+
       .modules-left,
       .modules-center,
       .modules-right {
-        background: @dark-9;
-        border: 1px solid ${c.border};
-        border-radius: 12px;
-        margin: 6px 5px;
-        padding: 2px 4px;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
       }
 
       #workspaces button {
-        padding: 1px;
-        margin: 2px 0px 2px 2px;
+        padding: 0px;
+        margin: 0px 0px 0px 2px;
         background: transparent;
         border-radius: 2px;
         color: ${c.fg};
@@ -72,9 +81,8 @@
       #memory,
       #volume {
         border-radius: 3px;
-        padding: 1px 5px;
-        background: @dark-8;
-        margin: 2px 3px 2px 0px;
+        padding: 0px 3px;
+        margin: 0px 2px 0px 0px;
       }
 
       #submap,
@@ -114,11 +122,11 @@
 
       #media {
         color: ${c.success};
-        margin: 3px 0px 3px 8px;
+        margin: 0px 0px 0px 6px;
       }
 
       #custom-media-animation {
-        font-size: 10px;
+        font-size: 9px;
         margin-right: 4px;
       }
 
@@ -128,7 +136,7 @@
 
       #custom-media-time {
         color: @dark-5;
-        font-size: 10px;
+        font-size: 9px;
       }
 
       tooltip {
@@ -140,9 +148,98 @@
         color: ${c.fg};
       }
     '';
+
+    islandFraction = builtins.toJSON config.programs.waybar.islandWidthFraction;
+    referenceWidth = builtins.toString config.programs.waybar.referenceWidth;
+    bottomGap = builtins.toString config.programs.waybar.bottomGap;
+
+    myWaybar = pkgs.writeShellScriptBin "my-waybar" ''
+      set -u
+
+      FRACTION=${islandFraction}
+      REFERENCE=${referenceWidth}
+      BOTTOM_GAP=${bottomGap}
+      BASE_CONF=${waybarConfig}
+      BASE_CSS=${waybarStyle}
+      OUT_DIR="''${XDG_RUNTIME_DIR:-/tmp}"
+      GEN_CONF="$OUT_DIR/waybar-config.jsonc"
+      GEN_CSS="$OUT_DIR/waybar-style.css"
+
+      outputs="$("${pkgs.niri}/bin/niri" msg --json outputs 2>/dev/null || true)"
+      if [ -z "$outputs" ]; then
+        exec "${pkgs.waybar}/bin/waybar"
+      fi
+
+      primary="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r 'keys[0]' 2>/dev/null || true)"
+      primary_w="$(printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" -r --arg o "$primary" '.[$o].logical.width' 2>/dev/null || true)"
+
+      if [ -z "$primary_w" ] || [ "$primary_w" = "null" ]; then
+        exec "${pkgs.waybar}/bin/waybar"
+      fi
+
+      ui_scale="$(awk -v w="$primary_w" -v r="$REFERENCE" 'BEGIN { printf "%.2f", w / r }')"
+
+      if ! printf '%s' "$outputs" | "${pkgs.jq}/bin/jq" --argjson frac "$FRACTION" --slurpfile base <(cat "$BASE_CONF") '
+          to_entries | map(
+            .key as $name |
+            ((.value.logical.width * (1 - $frac) / 2) | round) as $m |
+            $base[0] * { output: $name, margin: ("0 \($m) 0 \($m)") }
+          )
+        ' > "$GEN_CONF" 2>/dev/null; then
+        exec "${pkgs.waybar}/bin/waybar"
+      fi
+
+      font_size="$(awk -v s="$ui_scale" 'BEGIN { printf "%.0f", 11 * s }')"
+      media_font="$(awk -v s="$ui_scale" 'BEGIN { printf "%.0f", 9 * s }')"
+      pad_v="$(awk -v s="$ui_scale" 'BEGIN { printf "%.0f", 5 * s }')"
+      pad_h="$(awk -v s="$ui_scale" 'BEGIN { printf "%.0f", 12 * s }')"
+      radius="$(awk -v s="$ui_scale" 'BEGIN { printf "%.0f", 12 * s }')"
+      bottom="$(awk -v s="$ui_scale" -v g="$BOTTOM_GAP" 'BEGIN { printf "%.0f", g * s }')"
+      tooltip_r="$(awk -v s="$ui_scale" 'BEGIN { printf "%.0f", 5 * s }')"
+
+      cat "$BASE_CSS" > "$GEN_CSS"
+      cat >> "$GEN_CSS" <<EOF
+      * { font-size: ''${font_size}px; }
+      #custom-media-animation, #custom-media-time { font-size: ''${media_font}px; }
+      window#waybar > box { padding: ''${pad_v}px ''${pad_h}px; border-radius: 0 0 ''${radius}px ''${radius}px; margin: 0 0 ''${bottom}px 0; }
+      #workspaces button.active { border-radius: ''${radius}px; }
+      tooltip { border-radius: ''${tooltip_r}px; }
+      EOF
+
+      exec "${pkgs.waybar}/bin/waybar" -c "$GEN_CONF" -s "$GEN_CSS"
+    '';
   in {
-    environment.systemPackages = with pkgs; [ waybar pavucontrol zscroll wifitui bluetui ];
-    environment.etc."xdg/waybar/config.jsonc".source = waybarConfig;
-    environment.etc."xdg/waybar/style.css".source = waybarStyle;
+    options.programs.waybar = {
+      islandWidthFraction = lib.mkOption {
+        type = lib.types.number;
+        default = 0.70;
+        description = "Fraction of the screen width that the bar island occupies";
+      };
+
+      referenceWidth = lib.mkOption {
+        type = lib.types.int;
+        default = 1920;
+        description = "Logical width at which the UI scale is 1.0";
+      };
+
+      bottomGap = lib.mkOption {
+        type = lib.types.number;
+        default = 8;
+        description = "Gap in px (at uiScale 1.0) between the bar's bottom edge and the windows below";
+      };
+
+      wrapper = lib.mkOption {
+        type = lib.types.package;
+        description = "Runtime-adaptive waybar wrapper that scales per monitor";
+      };
+    };
+
+    config = {
+      programs.waybar.wrapper = myWaybar;
+
+      environment.systemPackages = with pkgs; [ waybar pavucontrol zscroll wifitui bluetui ];
+      environment.etc."xdg/waybar/config.jsonc".source = waybarConfig;
+      environment.etc."xdg/waybar/style.css".source = waybarStyle;
+    };
   };
 }

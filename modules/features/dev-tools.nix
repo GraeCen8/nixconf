@@ -40,6 +40,7 @@
       clang-tools
       eslint
       svelte-language-server
+      astro-language-server
       vue-language-server
       dockerfile-language-server
       docker-compose-language-service
@@ -52,10 +53,14 @@
 
       # Formatters
       alejandra
+      nixfmt-rfc-style
       prettier
+      prettierd
       stylua
       shfmt
       yamlfmt
+      black
+      rustfmt
 
       # Build / treesitter deps
       gcc

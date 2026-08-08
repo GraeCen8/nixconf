@@ -12,7 +12,7 @@
       decorations = "full"
 
       [font]
-      size = ${toString themes.font.size}.0
+      size = ${builtins.toJSON (themes.font.size * config.system.theme.uiScale)}
 
       [font.normal]
       family = "${themes.font.family}"

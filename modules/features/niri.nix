@@ -50,7 +50,7 @@
 
       binds = {
         "Mod+Return".spawn-sh = lib.getExe pkgs.alacritty;
-        "Mod+D".spawn-sh = lib.getExe pkgs.fuzzel;
+        "Mod+D".spawn-sh = lib.getExe config.programs.fuzzel.wrapper;
         "Mod+V".spawn-sh = "${lib.getExe pkgs.clipman} pick -t fuzzel";
         "Mod+Tab".spawn-sh = lib.getExe pkgs.librewolf;
 
@@ -195,7 +195,7 @@
       exec ${lib.getExe pkgs.quickshell} --path ${qmlDir}
     '';
 
-    myNiri-waybar = mkNiri ["${lib.getExe pkgs.waybar}"];
+    myNiri-waybar = mkNiri ["${lib.getExe config.programs.waybar.wrapper}"];
     myNiri-noctalia = mkNiri ["${lib.getExe self.packages.${pkgs.stdenv.hostPlatform.system}.myNoctalia}"];
     myNiri-quickshell = mkNiri ["${lib.getExe myQuickshell}"];
   in {

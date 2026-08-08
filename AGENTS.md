@@ -38,6 +38,9 @@ features/
   nvim/
     default.nix                   - nixosModules.nvim + homeManagerModules.nvim
     config/                       - LazyVim config files (init.lua, lua/, etc.)
+  tmux/
+    default.nix                   - nixosModules.tmux + homeManagerModules.tmux
+    config/tmux.conf              - tmux config (theme colors substituted from themes-data)
   themes/
     default.nix                   - nixosModules.themes (system.theme option)
   wallpaper/default.nix           - nixosModules.wallpaper + perSystem packages (wallpapers, wallpaper-{set,next,init})

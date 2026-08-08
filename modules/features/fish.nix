@@ -398,6 +398,22 @@
           end
           tmux select-pane -t $panes[1]
         end
+
+        function tcd
+          if test (count $argv) -lt 1
+            echo "Usage: tcd <directory>"
+            return 1
+          end
+          set dir (realpath $argv[1])
+          if not test -d "$dir"
+            echo "Error: Not a directory: $dir"
+            return 1
+          end
+          builtin cd "$dir"
+          if set -q TMUX
+            tmux display-message "tcd: $dir"
+          end
+        end
       '';
     };
 
